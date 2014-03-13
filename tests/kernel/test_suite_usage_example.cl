@@ -1,3 +1,6 @@
+// TODO: provide echo script or change runlines to be platform independent...
+//       maybe sh is actually required in windows too...
+
 // RUN: echo "Hello worlds this documents some subtitutions which are available in test scripts"
 // RUN: echo "Substitute %\%: %%"
 // RUN: echo "Substitute %\s: %s"
