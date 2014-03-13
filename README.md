@@ -23,12 +23,12 @@ Test cases must be also reduced to have as little code as possible, preferably l
 
 == Usage ==
 
-Clone repository
+Clone repository, create build and run cmake
 
+	cd working_directory
 	git clone https://github.com/elhigu/opencl-testsuite.git
-
-Crate build directory to run tests.
-
+	mkdir build
+	cd build
 	cmake ../opencl-testsuite
 
 Build native tester program and run testsuite with all devices.
