@@ -48,8 +48,8 @@ test_example.cl
 // RUN: %{ocl_tester} compile %{device_id} < %s
 kernel void foo() {	}
 ```
-
-In the previous example `%{ocl_tester}` is replaced with path to ocl-tester program. One can check it's usage by running `tools/ocl-tester/ocl-tester --help`.
+ 
+In the previous example `%{ocl_tester}` is replaced with path to `ocl-tester` program, `%s` is path to `test_example.cl` file and `%{device_id}` is id of the OpenCL device. One can check it's usage by running `tools/ocl-tester/ocl-tester --help`. `%{device_id}`s can be listed with `ocl-tester`
 
 ```
 Usage: ocl-tester <command> [OPTIONS] [< kernelcode.cl]
@@ -64,9 +64,11 @@ Available options:
                          Ids are returned with list-devices command
 ```
 
+When writing run scripts it is important to not to use any tools, which are not available in Windows. We have python as dependency so that still can be used.
+
 ### Test compiling kernel code
 
-Create new file with `.cl` extension to tests/kernel and write your test code there. All `.cl` files are interpreted as test cases. 
+Create new file with `.cl` extension to tests/kernel and write your test code there. All `.cl` files are interpreted as test cases. `ocl-tester compile --device <device_id>` can be used to test compiling.
 
 ### Test running kernel code
 
