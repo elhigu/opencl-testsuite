@@ -26,10 +26,20 @@ get_target_property(OCL_TESTER_EXEC ocl-tester LOCATION)
 message(STATUS "Found python: ${PYTHON_EXECUTABLE}")
 message(STATUS "Ocl tester executable: ${OCL_TESTER_EXEC}")
 
-# one can call 'make USE_DEVICE="Apple.*" check' to run test only with selected paltforms
+# one can call 'make USE_DEVICE="Apple.*" check' to run test only with selected platforms
 add_custom_target(check 
 	${PYTHON_EXECUTABLE} ${LIT_SCRIPT}  -o test_out.json -sv 
 	--param OCL_TESTER=${OCL_TESTER_EXEC}
 	--param DEVICE=\${USE_DEVICE}
+	${TEST_DIR}
+	DEPENDS ocl-tester)
+
+# one can call 'make list-checks' to print out information about devices
+add_custom_target(list-checks 
+	${PYTHON_EXECUTABLE} ${LIT_SCRIPT}  -o test_out.json -sv 
+	--param OCL_TESTER=${OCL_TESTER_EXEC}
+	--param DEVICE=\${USE_DEVICE}
+	--show-suites
+	--show-suites
 	${TEST_DIR}
 	DEPENDS ocl-tester)

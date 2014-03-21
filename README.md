@@ -39,6 +39,16 @@ To limit set of devices used to run tests one can write python regular expressio
 
 	make USE_DEVICE=GeForce check
 
+To list available test cases and devices
+
+	make list-checks
+
+### Test results and running singe test cases
+
+After running tests commandline scripts for each test case are generated to `run_scripts/device_129481944/` directory. One can repeat single test cases by running those. Test results are written also to `test_out.json`.
+
+NOTE: tests might hang for few seconds time to time, because when driver fails compilation, it may hang for a moment.
+
 ## Adding new tests
 
 All test cases are separate code files, which contains the code to test and in comments test scripts are inside test file in comments.
