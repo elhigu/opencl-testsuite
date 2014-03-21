@@ -31,6 +31,10 @@ Clone repository, create build and run cmake
 	cd build
 	cmake ../opencl-testsuite
 
+To choose where to find OpenCL one can set environment variables `OpenCL_LIBPATH` and  `OpenCL_INCPATH` e.g. 
+
+	OpenCL_LIBPATH=/usr/local/opt/pocl/lib OpenCL_INCPATH=/usr/local/include/ cmake ../opencl-testsuite
+	
 Build native tester program and run testsuite with all devices.
 
 	make check

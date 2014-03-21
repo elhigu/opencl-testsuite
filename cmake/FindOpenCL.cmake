@@ -22,9 +22,21 @@ SET (OPENCL_VERSION_PATCH 0)
 
 IF (APPLE)
 
-	FIND_LIBRARY(OPENCL_LIBRARIES OpenCL DOC "OpenCL lib for OSX")
-	FIND_PATH(OPENCL_INCLUDE_DIRS OpenCL/cl.h DOC "Include for OpenCL on OSX")
-	FIND_PATH(_OPENCL_CPP_INCLUDE_DIRS OpenCL/cl.hpp DOC "Include for OpenCL CPP bindings on OSX")
+	# IF OpenCL_LIBPATH is given use it and don't use default path
+	IF (DEFINED ENV{OpenCL_LIBPATH})
+		FIND_LIBRARY(OPENCL_LIBRARIES OpenCL PATHS ENV OpenCL_LIBPATH NO_DEFAULT_PATH)
+	ELSE ()
+		FIND_LIBRARY(OPENCL_LIBRARIES OpenCL DOC "OpenCL lib for OSX")
+	ENDIF ()
+
+	# IF OpenCL_INCPATH is given use it and find for CL/cl.h and OpenCL/cl.h do not try to find default paths
+	IF (DEFINED ENV{OpenCL_INCPATH})
+		FIND_PATH(OPENCL_INCLUDE_DIRS CL/cl.h OpenCL/cl.h PATHS ENV OpenCL_INCPATH NO_DEFAULT_PATH)
+		FIND_PATH(_OPENCL_CPP_INCLUDE_DIRS CL/cl.hpp OpenCL/cl.hpp PATHS ${OPENCL_INCLUDE_DIRS} NO_DEFAULT_PATH)
+	ELSE ()
+		FIND_PATH(OPENCL_INCLUDE_DIRS OpenCL/cl.h DOC "Include for OpenCL on OSX")
+		FIND_PATH(_OPENCL_CPP_INCLUDE_DIRS OpenCL/cl.hpp DOC "Include for OpenCL CPP bindings on OSX")
+	ENDIF ()
 
 ELSE (APPLE)
 

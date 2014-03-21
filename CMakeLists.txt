@@ -5,11 +5,9 @@ project(opencl-testsuite)
 # https://gitorious.org/findopencl/findopencl
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 find_package( OpenCL REQUIRED )
-include_directories( ${OPENCL_INCLUDE_DIRS} )
+message(STATUS "OpenCL includes: ${OPENCL_INCLUDE_DIRS}")
 
-# TODO: allow giving explicit location of headers and libraries 
-#       (with OSX this allows to try out pocl and other non official drivers)
-# 
+include_directories( ${OPENCL_INCLUDE_DIRS} )
 
 # Maybe we could git c++11 flag... opencl platforms are pretty modern
 # add_definitions(-std=c99)

@@ -9,7 +9,7 @@ constant ConstantPool constants = { 1, &constants.firstPtr };
 
 void nop(constant int* addr) { }
 
-kernel void remove_variables(void)
+kernel void constant_struct_with_pointer_to_own_field(void)
 {
    nop(constants.firstPtr);
 }
