@@ -7,6 +7,8 @@ WebCL code to fail after memory protection is applied to original WebCL kernels.
 must be plain valid OpenCL (otherwise problem would be WebCL memory protector code generation).
 Test cases must be also reduced to have as little code as possible, preferably less than 10 lines.
 
+Reported results are updated here: http://elhigu.github.io/opencl-testsuite/ 
+
 ## Requirements
 
 * Python 2.7 (should be easy to port to 2.5)
