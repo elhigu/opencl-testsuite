@@ -28,6 +28,28 @@
 #include <map> 
 #include <string> 
 
+#include <algorithm> 
+#include <functional> 
+#include <cctype>
+#include <locale>
+
+// trim from start
+static inline std::string &ltrim(std::string &s) {
+        s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
+        return s;
+}
+
+// trim from end
+static inline std::string &rtrim(std::string &s) {
+        s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+        return s;
+}
+
+// trim from both ends
+static inline std::string &trim(std::string &s) {
+        return ltrim(rtrim(s));
+}
+
 // TODO: fix this, we might want to use khronos headers also in OSX
 //       cmake already supports finding valid path
 #ifdef __APPLE__
@@ -123,10 +145,11 @@ DeviceInfo getDeviceInfo(cl_platform_id platformId, cl_device_id deviceId) {
     driverVersion = std::string(driverVersion.c_str());
     openCLCVersion = std::string(openCLCVersion.c_str());
 
+
     std::string hashString = platformName + " / " + deviceName;
     std::hash<std::string> shash;
 
-    DeviceInfo dInfo = { deviceId, platformId, platformName, deviceName, shash(hashString), deviceVersion, driverVersion, openCLCVersion };
+    DeviceInfo dInfo = { deviceId, platformId, trim(platformName), trim(deviceName), shash(hashString), trim(deviceVersion), trim(driverVersion), trim(openCLCVersion) };
     return dInfo;
 }
 
