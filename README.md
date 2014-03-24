@@ -11,7 +11,7 @@ Reported results are updated here: http://elhigu.github.io/opencl-testsuite/
 
 ## Requirements
 
-* Python 2.7 (should be easy to port to 2.5)
+* Python 2.7
 * CMake 2.8
 * C/C++ compiler
 * OpenCL Headers and libraries
