@@ -26,6 +26,7 @@
 #include <set>
 #include <vector>
 #include <map> 
+#include <string> 
 
 // TODO: fix this, we might want to use khronos headers also in OSX
 //       cmake already supports finding valid path
