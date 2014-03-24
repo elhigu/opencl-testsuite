@@ -25,23 +25,40 @@
 #include <iostream>
 #include <set>
 #include <vector>
+#include <map> 
 
-#ifdef __APPLE__
+// TODO: fix this, we might want to use khronos headers also in OSX
+//       cmake already supports finding valid path
+#define USE_APPLE_HEADERS __APPLE__
+ 
+#ifdef USE_APPLE_HEADERS
 #include <OpenCL/cl.h>
 #else
 #include <CL/cl.h>
 #endif
 
-// TODO: since platform info about all devices etc. seems to be needed everywhere
-//       always start by collecting complete device info and use that for printing
-//       and finding device etc.
-
 namespace
 {
     typedef std::vector<cl_platform_id> platform_vector;
     typedef std::vector<cl_device_id> device_vector;
+
+    typedef struct {
+        cl_device_id dId;
+        cl_platform_id pId;
+        std::string platformName;
+        std::string deviceName;
+        size_t deviceHash;
+        std::string deviceVersion;
+        std::string driverVersion;
+        std::string openCLCVersion;
+    } DeviceInfo;
+
+    typedef std::map<cl_device_id,DeviceInfo> device_map;
 }
 
+/**
+ * Returns platform ids in a vector.
+ */
 platform_vector getPlatformIDs()
 {
     const platform_vector::size_type maxPlatforms = 10;
@@ -58,6 +75,9 @@ platform_vector getPlatformIDs()
     return platformIds;
 }
 
+/**
+ * Returns device ids in a vector.
+ */
 device_vector getDeviceIDs(cl_platform_id const& platformId)
 {
     cl_uint num_devices = 0;
@@ -77,46 +97,61 @@ device_vector getDeviceIDs(cl_platform_id const& platformId)
     return devices;
 }
 
-device_vector getAllDeviceIDs()
-{
-    platform_vector platforms = getPlatformIDs();
-    device_vector all_devices;
-
-    for (unsigned i = 0; i < platforms.size(); i++) {
-        device_vector devices = getDeviceIDs(platforms[i]);
-        for (unsigned j = 0; j < devices.size(); j++) {
-            all_devices.push_back(devices[j]);
-        }
-    }
-    return all_devices;
-}
-
-std::string getPlatformName(cl_platform_id const& platformId) {
-    std::string platName(1024, '\0');
-    std::size_t platNameLen = 0U;
-    clGetPlatformInfo(platformId, CL_PLATFORM_NAME, 1024, &platName[0], &platNameLen);
-    platName.resize(platNameLen);
-    return platName;
-}
-
-std::string getDeviceString(std::string platformName, cl_device_id const& deviceId) {
+/**
+ * Request various bits of information about the device from OpenCL driver.
+ */ 
+DeviceInfo getDeviceInfo(cl_platform_id platformId, cl_device_id deviceId) {
     std::string deviceName(1024, '\0');
     std::string deviceVersion(1024, '\0');
     std::string driverVersion(1024, '\0');
     std::string openCLCVersion(1024, '\0');
+    std::string platformName(1024, '\0');
 
+    clGetPlatformInfo(platformId, CL_PLATFORM_NAME, 1024, &platformName[0], NULL);
     clGetDeviceInfo(deviceId, CL_DEVICE_NAME, 1024, &deviceName[0], NULL);
     clGetDeviceInfo(deviceId, CL_DEVICE_VERSION, 1024, &deviceVersion[0], NULL);
     clGetDeviceInfo(deviceId, CL_DRIVER_VERSION, 1024, &driverVersion[0], NULL);
     clGetDeviceInfo(deviceId, CL_DEVICE_OPENCL_C_VERSION, 1024, &openCLCVersion[0], NULL);
 
-    // c_str() -> string seems to get rid of invalid chars if e.g. \0 was included in string
-    return "{\"id\":" + std::to_string((unsigned long)deviceId) + ",\"platformName\":\"" + 
-        std::string(platformName.c_str()) + "\",\"deviceName\":\"" + 
-        std::string(deviceName.c_str()) + "\",\"deviceVersion\":\"" + 
-        std::string(deviceVersion.c_str()) + "\",\"driverVersion\":\"" + 
-        std::string(driverVersion.c_str()) + "\",\"openCLCVersion\":\"" + 
-        std::string(openCLCVersion.c_str()) + "\"}";
+    // cleanup strings
+    platformName = std::string(platformName.c_str());
+    deviceName = std::string(deviceName.c_str());
+    deviceVersion = std::string(deviceVersion.c_str());
+    driverVersion = std::string(driverVersion.c_str());
+    openCLCVersion = std::string(openCLCVersion.c_str());
+
+    std::string hashString = platformName + " / " + deviceName;
+    std::hash<std::string> shash;
+
+    DeviceInfo dInfo = { deviceId, platformId, platformName, deviceName, shash(hashString), deviceVersion, driverVersion, openCLCVersion };
+    return dInfo;
+}
+
+/**
+ * Collect information about all the devices in system.
+ */ 
+device_map getAllDeviceInfos() {
+    platform_vector platform_ids = getPlatformIDs();
+    device_map devices;
+    for (unsigned i = 0; i < platform_ids.size(); i++) {
+        device_vector device_ids = getDeviceIDs(platform_ids[i]);
+        for (unsigned j = 0; j < device_ids.size(); j++) {
+            devices[device_ids[j]] = getDeviceInfo(platform_ids[i], device_ids[j]);
+        }
+    }
+    return devices;
+}
+
+/**
+ * Prints DeviceInfo as a JSON
+ */
+std::string getDeviceString(const DeviceInfo &device) {
+    return "{\"id\":" + std::to_string(device.deviceHash) + ",\"platformName\":\"" + 
+        device.platformName + "\",\"deviceName\":\"" + 
+        device.deviceName + "\",\"deviceVersion\":\"" + 
+        device.deviceVersion + "\",\"driverVersion\":\"" + 
+        device.driverVersion + "\",\"openCLCVersion\":\"" + 
+        device.openCLCVersion + "\"}";
 }
 
 /**
@@ -177,21 +212,13 @@ bool compileSource(std::string const& source, cl_device_id const& deviceId, bool
  * Writes JSON to stdout printing device information.
  */
 bool printDeviceInfo() {
-    platform_vector platforms = getPlatformIDs();
-    std::vector<std::string> deviceNames;
-    for (unsigned i = 0; i < platforms.size(); i++) {
-        device_vector devices = getDeviceIDs(platforms[i]);
-        std::string platformName = getPlatformName(platforms[i]);
-        for (unsigned j = 0; j < devices.size(); j++) {
-            deviceNames.push_back(getDeviceString(platformName, devices[j]));
-        }
-    }
-
+    device_map devices = getAllDeviceInfos();
     std::cout << "{\"deviceIdentifiers\":[" << std::endl;
 
-    for (unsigned deviceIdx = 0; deviceIdx < deviceNames.size(); deviceIdx++) {
-        std::cout << deviceNames[deviceIdx];
-        if ( deviceIdx != (deviceNames.size()-1) ) {
+    for (device_map::const_iterator iter = devices.begin(); iter != devices.end(); iter++) {
+        const DeviceInfo &dInfo = iter->second;
+        std::cout << getDeviceString(dInfo);
+        if ( std::next(iter) !=  devices.end() ) {
             std::cout << ",";
         }
         std::cout << std::endl;
@@ -207,14 +234,14 @@ bool compileWithDevice(std::string selectedDevice, bool debug) {
     if (debug) std::cerr << source << std::endl;
 
     if (debug) std::cerr << "Fetch all devices..." << std::endl;
-    device_vector all_devices = getAllDeviceIDs();
+    device_map devices = getAllDeviceInfos();
 
     // find correct device by id
     if (debug) std::cerr << "Finding correct device to compile..." << std::endl;
-    for (unsigned long i = 0; i < all_devices.size(); i++) {
-        if (std::to_string((unsigned long)all_devices[i]) == selectedDevice) {
-            if (debug) std::cerr << "Found: " << getDeviceString("", all_devices[i]) << std::endl;
-            return compileSource(source, all_devices[i], debug);
+    for (device_map::const_iterator iter = devices.begin(); iter != devices.end(); iter++) {
+        if (std::to_string(iter->second.deviceHash) == selectedDevice) {
+            if (debug) std::cerr << "Found: " << getDeviceString(iter->second) << std::endl;
+            return compileSource(source, iter->second.dId, debug);
         }
     }
 
