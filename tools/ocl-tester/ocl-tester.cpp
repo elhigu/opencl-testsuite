@@ -33,21 +33,29 @@
 #include <cctype>
 #include <locale>
 
+struct NonAsciiChar {
+    bool operator()(char c) const {
+        return ((unsigned char)c) > 127;
+    }
+};
+
 // trim from start
 static inline std::string &ltrim(std::string &s) {
-        s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
-        return s;
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
+    return s;
 }
 
 // trim from end
 static inline std::string &rtrim(std::string &s) {
-        s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
-        return s;
+    s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+    return s;
 }
 
 // trim from both ends
 static inline std::string &trim(std::string &s) {
-        return ltrim(rtrim(s));
+    // driver might return some trash...
+    s.erase(std::remove_if(s.begin(),s.end(),NonAsciiChar()), s.end());
+    return ltrim(rtrim(s));
 }
 
 // TODO: fix this, we might want to use khronos headers also in OSX
@@ -226,7 +234,9 @@ bool compileSource(std::string const& source, cl_device_id const& deviceId, bool
         std::string buildLog(len, '\0');
         clGetProgramBuildInfo(program, deviceId, CL_PROGRAM_BUILD_LOG, len, &buildLog[0], NULL);
         
-        std::cerr << "-------- Build log: --------" << std::endl << buildLog << std::endl;
+        buildLog = std::string(buildLog.c_str());
+
+        std::cerr << "-------- Build log: --------" << std::endl << trim(buildLog) << std::endl;
 
         return false;
     }
