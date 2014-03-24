@@ -29,8 +29,10 @@
 
 // TODO: fix this, we might want to use khronos headers also in OSX
 //       cmake already supports finding valid path
-#define USE_APPLE_HEADERS __APPLE__
- 
+#ifdef __APPLE__
+#define USE_APPLE_HEADERS 
+#endif
+
 #ifdef USE_APPLE_HEADERS
 #include <OpenCL/cl.h>
 #else
