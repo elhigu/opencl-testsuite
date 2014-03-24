@@ -219,8 +219,15 @@ bool compileSource(std::string const& source, cl_device_id const& deviceId, bool
     if (debug) std::cerr << "Building program.\n";
     if (CL_SUCCESS != clBuildProgram(program, 1, &deviceId, NULL, NULL, NULL))
     {
-        // TODO: add constant to string function to print error code...
-        std::cerr << "Error: Failed to build program." << std::endl;
+        std::cerr << "Error: Failed to build program... reading build log..." << std::endl;
+
+        size_t len = 0;
+        clGetProgramBuildInfo(program, deviceId, CL_PROGRAM_BUILD_LOG, 0, NULL, &len);
+        std::string buildLog(len, '\0');
+        clGetProgramBuildInfo(program, deviceId, CL_PROGRAM_BUILD_LOG, len, &buildLog[0], NULL);
+        
+        std::cerr << "-------- Build log: --------" << std::endl << buildLog << std::endl;
+
         return false;
     }
 
