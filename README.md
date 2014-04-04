@@ -22,6 +22,7 @@ Reported results are updated here: http://elhigu.github.io/opencl-testsuite/
 * List all OpenCL devices in system
 * Run tests with one device or all of them
 * Collects information about environment for test report
+* CMake target to send test report for me to include to results page
 
 ## Usage
 
@@ -54,6 +55,14 @@ To list available test cases and devices
 After running tests commandline scripts for each test case are generated to `run_scripts/device_129481944/` directory. One can repeat single test cases by running those. Test results are written also to `test_out.json`.
 
 NOTE: tests might hang for few seconds time to time, because when driver fails compilation, it may hang for a moment.
+
+### Sending test results to public
+
+To facilitate delivering reports to results page, we added separate CMake target to send them directly from your favorite IDE.
+
+	make send-report
+
+This prints out filtered version of report and delivers it to our logging service, which notifies me daily about new test results to get in. If sending does not work for some reason, you may send test_out.json / filtered output directly to mikael.lepisto@vincit.fi.
 
 ## Adding new tests
 
