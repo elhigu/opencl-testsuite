@@ -58,6 +58,46 @@ static inline std::string &trim(std::string &s) {
     return ltrim(rtrim(s));
 }
 
+/**
+ * Simple hash function modified from
+ * http://stackoverflow.com/questions/8317508/hash-function-for-a-string
+ */
+#define A 54059 /* a prime */
+#define B 76963 /* another prime */
+#define C 86969 /* yet another prime */
+static inline unsigned long simple_hash(std::string str)
+{
+   const char* s = str.c_str();
+   unsigned long h = 31 /* also prime */;
+   while (*s) {
+     h = (h * A) ^ (s[0] * B);
+     s++;
+   }
+   return h; // or return h % C;
+}
+
+/**
+ * Cases where we would like to use std::string.
+ */
+#include <sstream>
+static inline std::string to_string(size_t val) {
+  std::stringstream ss;
+  ss << val;
+  return ss.str();
+}
+
+/**
+ * Implementation for c++11 std::next
+ * 
+ * http://stackoverflow.com/questions/3673684/peek-the-next-element-in-stl-container
+ */
+template <typename ForwardIt>
+ForwardIt next(ForwardIt it, typename std::iterator_traits<ForwardIt>::difference_type n = 1)
+{
+    std::advance(it, n);
+    return it;
+}
+
 // TODO: fix this, we might want to use khronos headers also in OSX
 //       cmake already supports finding valid path
 #ifdef __APPLE__
@@ -155,9 +195,8 @@ DeviceInfo getDeviceInfo(cl_platform_id platformId, cl_device_id deviceId) {
 
 
     std::string hashString = platformName + " / " + deviceName;
-    std::hash<std::string> shash;
 
-    DeviceInfo dInfo = { deviceId, platformId, trim(platformName), trim(deviceName), shash(hashString), trim(deviceVersion), trim(driverVersion), trim(openCLCVersion) };
+    DeviceInfo dInfo = { deviceId, platformId, trim(platformName), trim(deviceName), simple_hash(hashString), trim(deviceVersion), trim(driverVersion), trim(openCLCVersion) };
     return dInfo;
 }
 
@@ -180,7 +219,7 @@ device_map getAllDeviceInfos() {
  * Prints DeviceInfo as a JSON
  */
 std::string getDeviceString(const DeviceInfo &device) {
-    return "{\"id\":" + std::to_string(device.deviceHash) + ",\"platformName\":\"" + 
+    return "{\"id\":" + to_string(device.deviceHash) + ",\"platformName\":\"" + 
         device.platformName + "\",\"deviceName\":\"" + 
         device.deviceName + "\",\"deviceVersion\":\"" + 
         device.deviceVersion + "\",\"driverVersion\":\"" + 
@@ -195,10 +234,21 @@ std::string readAllInput()
 {
     // don't skip the whitespace while reading
     std::cin >> std::noskipws;
-    // use stream iterators to copy the stream to a string
+
+ /* Does not work on c++03
     std::istream_iterator<char> begin(std::cin);
     std::istream_iterator<char> end;
     return std::string(begin, end);
+*/
+ 
+/* Might work.. lets try next one first
+    std::ostringstream os;
+    std::cin >> os.rdbuf();
+    return os.str();
+*/
+
+    std::istreambuf_iterator<char> eos;
+    return std::string(std::istreambuf_iterator<char>(std::cin), eos);
 }
 
 /**
@@ -261,7 +311,7 @@ bool printDeviceInfo() {
     for (device_map::const_iterator iter = devices.begin(); iter != devices.end(); iter++) {
         const DeviceInfo &dInfo = iter->second;
         std::cout << getDeviceString(dInfo);
-        if ( std::next(iter) !=  devices.end() ) {
+        if ( next(iter) !=  devices.end() ) {
             std::cout << ",";
         }
         std::cout << std::endl;
@@ -282,7 +332,7 @@ bool compileWithDevice(std::string selectedDevice, bool debug) {
     // find correct device by id
     if (debug) std::cerr << "Finding correct device to compile..." << std::endl;
     for (device_map::const_iterator iter = devices.begin(); iter != devices.end(); iter++) {
-        if (std::to_string(iter->second.deviceHash) == selectedDevice) {
+        if (to_string(iter->second.deviceHash) == selectedDevice) {
             if (debug) std::cerr << "Found: " << getDeviceString(iter->second) << std::endl;
             return compileSource(source, iter->second.dId, debug);
         }
