@@ -69,6 +69,7 @@ class LogReader(object):
 			full_msg = ""
 			for i in range(len(parts)): 
 				full_msg += parts.get(i, "FAIL")
+				full_msg = full_msg[:-1] # drop extra space whic comes from logger service..
 
 			try:
 				original_message = json.loads(full_msg)
