@@ -92,7 +92,7 @@ static inline std::string to_string(size_t val) {
  * http://stackoverflow.com/questions/3673684/peek-the-next-element-in-stl-container
  */
 template <typename ForwardIt>
-ForwardIt next(ForwardIt it, typename std::iterator_traits<ForwardIt>::difference_type n = 1)
+ForwardIt peek_next(ForwardIt it, typename std::iterator_traits<ForwardIt>::difference_type n = 1)
 {
     std::advance(it, n);
     return it;
@@ -119,6 +119,7 @@ namespace
         cl_device_id dId;
         cl_platform_id pId;
         std::string platformName;
+        std::string platformVersion;
         std::string deviceName;
         size_t deviceHash;
         std::string deviceVersion;
@@ -179,15 +180,18 @@ DeviceInfo getDeviceInfo(cl_platform_id platformId, cl_device_id deviceId) {
     std::string driverVersion(1024, '\0');
     std::string openCLCVersion(1024, '\0');
     std::string platformName(1024, '\0');
+    std::string platformVersion(1024, '\0');
 
     clGetPlatformInfo(platformId, CL_PLATFORM_NAME, 1024, &platformName[0], NULL);
+    clGetPlatformInfo(platformId, CL_PLATFORM_VERSION, 1024, &platformVersion[0], NULL);
     clGetDeviceInfo(deviceId, CL_DEVICE_NAME, 1024, &deviceName[0], NULL);
     clGetDeviceInfo(deviceId, CL_DEVICE_VERSION, 1024, &deviceVersion[0], NULL);
     clGetDeviceInfo(deviceId, CL_DRIVER_VERSION, 1024, &driverVersion[0], NULL);
     clGetDeviceInfo(deviceId, CL_DEVICE_OPENCL_C_VERSION, 1024, &openCLCVersion[0], NULL);
 
-    // cleanup strings
+    // cleanup strings 
     platformName = std::string(platformName.c_str());
+    platformVersion = std::string(platformVersion.c_str());
     deviceName = std::string(deviceName.c_str());
     deviceVersion = std::string(deviceVersion.c_str());
     driverVersion = std::string(driverVersion.c_str());
@@ -196,7 +200,7 @@ DeviceInfo getDeviceInfo(cl_platform_id platformId, cl_device_id deviceId) {
 
     std::string hashString = platformName + " / " + deviceName;
 
-    DeviceInfo dInfo = { deviceId, platformId, trim(platformName), trim(deviceName), simple_hash(hashString), trim(deviceVersion), trim(driverVersion), trim(openCLCVersion) };
+    DeviceInfo dInfo = { deviceId, platformId, trim(platformName), trim(platformVersion), trim(deviceName), simple_hash(hashString), trim(deviceVersion), trim(driverVersion), trim(openCLCVersion) };
     return dInfo;
 }
 
@@ -220,7 +224,8 @@ device_map getAllDeviceInfos() {
  */
 std::string getDeviceString(const DeviceInfo &device) {
     return "{\"id\":" + to_string(device.deviceHash) + ",\"platformName\":\"" + 
-        device.platformName + "\",\"deviceName\":\"" + 
+        device.platformName + "\",\"platformVersion\":\"" + 
+        device.platformVersion + "\",\"deviceName\":\"" + 
         device.deviceName + "\",\"deviceVersion\":\"" + 
         device.deviceVersion + "\",\"driverVersion\":\"" + 
         device.driverVersion + "\",\"openCLCVersion\":\"" + 
@@ -234,19 +239,6 @@ std::string readAllInput()
 {
     // don't skip the whitespace while reading
     std::cin >> std::noskipws;
-
- /* Does not work on c++03
-    std::istream_iterator<char> begin(std::cin);
-    std::istream_iterator<char> end;
-    return std::string(begin, end);
-*/
- 
-/* Might work.. lets try next one first
-    std::ostringstream os;
-    std::cin >> os.rdbuf();
-    return os.str();
-*/
-
     std::istreambuf_iterator<char> eos;
     return std::string(std::istreambuf_iterator<char>(std::cin), eos);
 }
@@ -311,7 +303,7 @@ bool printDeviceInfo() {
     for (device_map::const_iterator iter = devices.begin(); iter != devices.end(); iter++) {
         const DeviceInfo &dInfo = iter->second;
         std::cout << getDeviceString(dInfo);
-        if ( next(iter) !=  devices.end() ) {
+        if ( peek_next(iter) !=  devices.end() ) {
             std::cout << ",";
         }
         std::cout << std::endl;

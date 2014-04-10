@@ -58,6 +58,11 @@ def main(argv):
 
 	filtered_results = filter_result(argv[1])
 
+	# add info about system with results
+	with open("system_info.json", "r") as f:
+		device_list = json.loads(f.read())
+		filtered_results['devices'] = device_list
+
 	print "---------- Test results were ------"
 	print json.dumps(filtered_results, sort_keys=True, indent=2)
 	print "----------------- end -------------"
@@ -88,3 +93,4 @@ def main(argv):
 
 if __name__ == "__main__":
 	main(sys.argv)
+

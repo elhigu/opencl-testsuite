@@ -19,6 +19,7 @@ SET(LIT_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/tools/lit/lit.py)
 SET(TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
 SET(REPORTER_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/tools/report-results.py)
 SET(RESULTS_JSON ${CMAKE_BINARY_DIR}/test_out.json)
+SET(DEVICES_JSON ${CMAKE_BINARY_DIR}/system_info.json)
 add_subdirectory(tools/ocl-tester)
 get_target_property(OCL_TESTER_EXEC ocl-tester LOCATION)
 
@@ -43,4 +44,11 @@ add_custom_target(list-checks
 	${TEST_DIR}
 	DEPENDS ocl-tester)
 
-add_custom_target(send-report ${PYTHON_EXECUTABLE} ${REPORTER_SCRIPT} ${RESULTS_JSON})
+# create device info file to send with test results
+add_custom_target(create-device-info  
+	${OCL_TESTER_EXEC} list-devices > ${DEVICES_JSON}
+	DEPENDS ocl-tester)
+
+add_custom_target(send-report 
+	${PYTHON_EXECUTABLE} ${REPORTER_SCRIPT} ${RESULTS_JSON}
+	DEPENDS create-device-info)
