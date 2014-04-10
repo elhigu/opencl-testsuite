@@ -1,4 +1,3 @@
-Usage: create_public_results.py < result_db.json
 {
   "36113698626065281": {
     "deviceInfo": {

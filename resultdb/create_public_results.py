@@ -38,8 +38,9 @@
 import json
 import copy
 import fileinput
+import sys
 
-print "Usage: create_public_results.py < result_db.json"
+print >>sys.stderr,"Usage: create_public_results.py < result_db.json"
 results = json.loads("".join(fileinput.input()))
 
 # dictionary of all test results in db organized by device.
