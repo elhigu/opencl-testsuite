@@ -14,15 +14,13 @@
       src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js"></script>
     <script type="text/javascript" 
       src="https:/cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
+
     <script>
       var app = angular.module("app", [])
       var json_results_url = 'https://raw.githubusercontent.com/elhigu/opencl-testsuite/master/resultdb/test_results.json';
 
       app.controller("AppCtrl", function ($scope, $http) {
 
-        // Load data from github file and crunch it for showing
-        $scope.result_json = "Loading data...";
-        
         window.JSON_CALLBACK = function (data) {
           var devices = [];
           _.each(data, function (device, hash_code) {
@@ -101,7 +99,7 @@
 
 </section>
 
-  <div ng-app="app" ng-controller="AppCtrl"> <!-- angular app starts -->
+  <div ng-cloak ng-app="app" ng-controller="AppCtrl"> <!-- angular app starts -->
 
     <!-- Result view -->
     <div class="clearfix device-row" ng-repeat="device in result_json">
