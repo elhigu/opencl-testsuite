@@ -1,4 +1,4 @@
-{
+JSON_CALLBACK({
   "36113698626065281": {
     "deviceInfo": {
       "deviceName": "GeForce GT 650M", 
@@ -432,4 +432,4 @@
       }
     }
   }
-}
+});
