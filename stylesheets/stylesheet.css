@@ -90,7 +90,8 @@ header h2 {
 }
 
 .inner {
-  width: 620px;
+  width: 90%;
+  max-width: 1024px;
   margin: 0 auto;
 }
 
@@ -369,3 +370,68 @@ footer a:hover {
 
 /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
 @media only screen and (max-width: 479px) {}
+
+.device-info {
+  width: 480px;
+  float: left;
+  vertical-align: top;
+}
+
+.test-run {
+  width : 120px;
+  float: left;
+}
+
+.device-row {
+  margin-bottom: 50px;
+  border-top: 1px solid #aaa;
+}
+
+/* MODAL DIALOG STYLES */
+
+.modal-overlay {
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #000000;
+  opacity: 0.8;
+}
+
+.modal-dialog {
+  z-index:10000;
+  position: fixed;
+  left: 5%;
+  right: 5%;
+  top: 5%;
+  bottom: 5%;
+  margin: auto;
+  background-color: #fff;
+  box-shadow: 4px 4px 80px #000;
+}
+
+.modal-dialog-content {
+  position: static;
+  text-align: left;
+  overflow: auto;
+  height: 100%;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+.modal-close {
+  float: right;
+  top: 3px;
+  right: 5px;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 120%;
+  display: inline-block;
+  font-weight: bold;
+  font-family: 'arial', 'sans-serif';
+}
+
+
+

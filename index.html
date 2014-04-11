@@ -10,63 +10,171 @@
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <script type="text/javascript" 
+      src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js"></script>
+    <script type="text/javascript" 
+      src="https:/cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
+    <script>
+      var app = angular.module("app", [])
+      var json_results_url = 'https://raw.githubusercontent.com/elhigu/opencl-testsuite/master/resultdb/test_results.json';
+
+      app.controller("AppCtrl", function ($scope, $http) {
+
+        // Load data from github file and crunch it for showing
+        $scope.result_json = "Loading data...";
+        
+        window.JSON_CALLBACK = function (data) {
+          var devices = [];
+          _.each(data, function (device, hash_code) {
+            var device_info = device.deviceInfo;
+
+            // organize test runs in time order and create some run stats
+            var test_runs = _.sortBy(_.map(device.results, function (test_run, run_date) {
+              return {
+                'runDate' : new Date(test_run['date']),
+                'totalTests' : test_run.tests.length,
+                'passedTests' : _.filter(test_run.tests, { 'result' : 'PASS' }).length,
+                'details' : test_run.tests
+              };
+            }), 'runDate');
+
+            devices.push({ device: device_info, tests : test_runs });
+          })
+
+          $scope.result_json = devices;
+        };
+
+        $http.jsonp(json_results_url);
+
+        // Action callbacks
+        $scope.showDetails = function (device_info, test_run) {
+          $scope.details_view = { device : device_info, test_run : test_run};
+        };
+        $scope.closeDetails = function () {
+          $scope.details_view = null;
+        };
+      });
+    </script>
     <title>Opencl-testsuite by elhigu</title>
   </head>
 
-  <body>
-    <div id="container">
-      <div class="inner">
+<body>
+<div id="container">
+<div class="inner">
 
-        <header>
-          <h1>Opencl-testsuite</h1>
-          <h2>Cross platform (Visual Studio,Xcode,clang,gcc...) testsuite for OpenCL. Based on CMake and LLVM&#39;s lit test framework.</h2>
-        </header>
+<header>
+<h1>Opencl-testsuite</h1>
+<h2>Cross platform (Visual Studio,Xcode,clang,gcc...) testsuite for OpenCL. Based on CMake and LLVM&#39;s lit test framework.</h2>
+</header>
 
-        <section id="downloads" class="clearfix">
-          <a href="https://github.com/elhigu/opencl-testsuite/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
-          <a href="https://github.com/elhigu/opencl-testsuite/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
-          <a href="https://github.com/elhigu/opencl-testsuite" id="view-on-github" class="button"><span>View on GitHub</span></a>
-        </section>
+<section id="downloads" class="clearfix">
+<a href="https://github.com/elhigu/opencl-testsuite/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+<a href="https://github.com/elhigu/opencl-testsuite/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+<a href="https://github.com/elhigu/opencl-testsuite" id="view-on-github" class="button"><span>View on GitHub</span></a>
+</section>
 
-        <hr>
+<hr>
 
-        <section id="main_content">
-          <h2>
-<a name="opencl-testsuite" class="anchor" href="#opencl-testsuite"><span class="octicon octicon-link"></span></a>Opencl-testsuite</h2>
+<section id="main_content">
+<h1><a name="opencl-testsuite" class="anchor" href="#opencl-testsuite"><span class="octicon octicon-link"></span></a>Motivation</h1>
 
-<p>This project was created to provide information and simple test cases to OpenCL driver vendors about situations where code created by WebCL to OpenCL translator (<a href="https://github.com/KhronosGroup/webcl-validator">https://github.com/KhronosGroup/webcl-validator</a>) does not work expectedly.</p>
+<p>This project was created to provide information and simple test cases to OpenCL driver vendors about situations where code created by WebCL to OpenCL translator <a href="https://github.com/KhronosGroup/webcl-validator">https://github.com/KhronosGroup/webcl-validator</a> does not work expectedly.</p>
 
 <p>To run test suite by your self, check readme from repository <a href="https://github.com/elhigu/opencl-testsuite">https://github.com/elhigu/opencl-testsuite</a></p>
 
+<h3>Contribute</h3>
+
+<p>It is really easy to run tests on yor platform and submit reports to this page. Just check out the code and...<br/>
+1. <code>cmake ../opencl-testsuite</code><br/>
+2. <code>make check</code><br/>
+3. <code>make send-report</code>
+</p>
+
 <p>Have you found some strange behavior with some OpenCL drivers? Please write reduced test case and we will add it to the test suite.</p>
 
-<p>DISCLAIMER: These results <b>does not reflect any kind of goodness or badness</b> of different OpenCL implementations. Reason why there are lots of fails for certain drivers is that we have just debugged our OpenCL code with these drivers and added test cases which specifically fails on certain platform. It is even possible that some test cases are invalid and in that case we will gladly fix them and accept pull requests.</p>
+<h1>
+<a name="results" class="anchor" href="#results"><span class="octicon octicon-link"></span></a>Results</h1>
+
+<p><strong>DISCLAIMER:</strong> These results <b>does not reflect any kind of goodness or badness</b> of different OpenCL implementations. Reason why there are lots of fails for certain drivers is that we have just debugged our OpenCL code with these drivers and added test cases which specifically fails on certain platform. It is even possible that some test cases are invalid and in that case we will gladly fix them and accept pull requests.</p>
 
 <p>Test cases are designed to help vendors to reproduce some problems that users has encountered.</p>
 
-<h3>
-<a name="results" class="anchor" href="#results"><span class="octicon octicon-link"></span></a>Results</h3>
+</section>
 
-<p>TODO: add results as JSON files and create result table from them.</p>
-        </section>
+  <div ng-app="app" ng-controller="AppCtrl"> <!-- angular app starts -->
 
-        <footer>
-          Opencl-testsuite is maintained by <a href="https://github.com/elhigu">elhigu</a><br>
-          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
-        </footer>
-
-                  <script type="text/javascript">
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-          </script>
-          <script type="text/javascript">
-            try {
-              var pageTracker = _gat._getTracker("UA-5708943-2");
-            pageTracker._trackPageview();
-            } catch(err) {}
-          </script>
-
+    <!-- Result view -->
+    <div class="clearfix device-row" ng-repeat="device in result_json">
+      <div class="device-info">
+        <strong>{{device.device.platformName}}</strong><br/>
+        <strong>{{device.device.deviceName}}</strong><br/>
+        Platform version: {{device.device.platformVersion}}<br/>
+        Driver version: {{device.device.driverVersion}}<br/>
+        Device version: {{device.device.deviceVersion}}<br/>
+        OpenCLC version: {{device.device.openCLCVersion}}
+      </div>
+      <div class="test-run" ng-repeat="test_run in device.tests">
+        {{test_run.runDate | date:'medium'}}<br/>
+        Passed: {{test_run.passedTests}} / {{test_run.totalTests}}<br/>
+        <a ng-click="showDetails(device.device, test_run)">Details</a>
       </div>
     </div>
-  </body>
+
+    <!-- Details dialog -->
+    <div class="details-view modal" ng-show="details_view">
+      <div class='modal-overlay' ng-click='closeDetails()'></div>      
+        <div class='modal-dialog'>
+          <div class='modal-close' ng-click='closeDetails()'>X</div>
+          <div class='modal-dialog-content'>
+            <div class="device-info">
+              <strong>{{details_view.device.platformName}} / {{details_view.device.deviceName}}</strong><br/>
+              Platform version: {{details_view.device.platformVersion}}<br/>
+              Driver version: {{details_view.device.driverVersion}}<br/>
+              Device version: {{details_view.device.deviceVersion}}<br/>
+              OpenCLC version: {{details_view.device.openCLCVersion}}
+            </div>
+            <div class="test-run-info">
+              {{details_view.test_run.runDate | date:'medium'}}<br/>
+              Passed: {{details_view.test_run.passedTests}} / {{details_view.test_run.totalTests}}<br/>
+            </div>
+            <table>
+              <thead>
+                <th>Test name</th>
+                <th>Result</th>
+                <th>Output</th>
+              </thead>
+              <tbody>
+                <tr ng-repeat="test in details_view.test_run.details">
+                  <td>{{test.test}}</td>
+                  <td>{{test.result}}</td>
+                  <td>{{test.output}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div> 
+        </div>
+      </div>
+    </div>
+  </div> <!-- angular app ends -->
+</div>
+
+<div class="inner">
+<footer>
+Opencl-testsuite is maintained by <a href="https://github.com/elhigu">elhigu</a><br>
+This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+</footer>
+
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  try {
+    var pageTracker = _gat._getTracker("UA-5708943-2");
+    pageTracker._trackPageview();
+  } catch(err) {}
+</script>
+
+</div>
+</body>
 </html>
