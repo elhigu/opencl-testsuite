@@ -130,6 +130,16 @@ namespace
     typedef std::map<cl_device_id,DeviceInfo> device_map;
 }
 
+size_t device_hash(DeviceInfo &dInfo) {
+    return simple_hash(
+        dInfo.platformName + "/" + 
+        dInfo.platformVersion + "/" + 
+        dInfo.deviceName + "/" + 
+        dInfo.deviceVersion + "/" + 
+        dInfo.openCLCVersion
+    );
+}
+
 /**
  * Returns platform ids in a vector.
  */
@@ -171,6 +181,11 @@ device_vector getDeviceIDs(cl_platform_id const& platformId)
     return devices;
 }
 
+std::string clean_string(std::string in) {
+    std::string out = std::string(in.c_str());
+    return trim(out);
+}
+
 /**
  * Request various bits of information about the device from OpenCL driver.
  */ 
@@ -189,18 +204,16 @@ DeviceInfo getDeviceInfo(cl_platform_id platformId, cl_device_id deviceId) {
     clGetDeviceInfo(deviceId, CL_DRIVER_VERSION, 1024, &driverVersion[0], NULL);
     clGetDeviceInfo(deviceId, CL_DEVICE_OPENCL_C_VERSION, 1024, &openCLCVersion[0], NULL);
 
-    // cleanup strings 
-    platformName = std::string(platformName.c_str());
-    platformVersion = std::string(platformVersion.c_str());
-    deviceName = std::string(deviceName.c_str());
-    deviceVersion = std::string(deviceVersion.c_str());
-    driverVersion = std::string(driverVersion.c_str());
-    openCLCVersion = std::string(openCLCVersion.c_str());
+    // cleanup strings.
+    platformName    = clean_string(platformName);
+    platformVersion = clean_string(platformVersion);
+    deviceName      = clean_string(deviceName);
+    deviceVersion   = clean_string(deviceVersion);
+    driverVersion   = clean_string(driverVersion);
+    openCLCVersion  = clean_string(openCLCVersion);
 
-
-    std::string hashString = platformName + " / " + deviceName;
-
-    DeviceInfo dInfo = { deviceId, platformId, trim(platformName), trim(platformVersion), trim(deviceName), simple_hash(hashString), trim(deviceVersion), trim(driverVersion), trim(openCLCVersion) };
+    DeviceInfo dInfo = { deviceId, platformId, platformName, platformVersion, deviceName, 0, deviceVersion, driverVersion, openCLCVersion };
+    dInfo.deviceHash = device_hash(dInfo);
     return dInfo;
 }
 
