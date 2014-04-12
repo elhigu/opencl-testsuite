@@ -109,6 +109,9 @@ ForwardIt peek_next(ForwardIt it, typename std::iterator_traits<ForwardIt>::diff
 #else
 #include <CL/cl.h>
 #endif
+#ifndef CL_DEVICE_OPENCL_C_VERSION // NVIDIA didn't declare this
+#define CL_DEVICE_OPENCL_C_VERSION  0x103D
+#endif
 
 namespace
 {
@@ -202,7 +205,7 @@ DeviceInfo getDeviceInfo(cl_platform_id platformId, cl_device_id deviceId) {
     clGetDeviceInfo(deviceId, CL_DEVICE_NAME, 1024, &deviceName[0], NULL);
     clGetDeviceInfo(deviceId, CL_DEVICE_VERSION, 1024, &deviceVersion[0], NULL);
     clGetDeviceInfo(deviceId, CL_DRIVER_VERSION, 1024, &driverVersion[0], NULL);
-    clGetDeviceInfo(deviceId, CL_DEVICE_OPENCL_C_VERSION, 1024, &openCLCVersion[0], NULL);
+	clGetDeviceInfo(deviceId, CL_DEVICE_OPENCL_C_VERSION, 1024, &openCLCVersion[0], NULL);
 
     // cleanup strings.
     platformName    = clean_string(platformName);
