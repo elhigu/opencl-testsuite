@@ -1,4 +1,4 @@
-// RUN: %{ocl_tester} compile --device %{device_id} < %s
+// RUN: "%{ocl_tester}" compile --device %{device_id} < "%s"
 
 kernel void write_wg_size_to_local_mem(void)
 {

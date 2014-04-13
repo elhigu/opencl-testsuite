@@ -1,4 +1,4 @@
-// RUN: %{ocl_tester} compile --device %{device_id} < %s
+// RUN: "%{ocl_tester}" compile --device %{device_id} < "%s"
 
 kernel void zero_low_or_high_bits_of_local(void)
 {

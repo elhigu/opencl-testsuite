@@ -1,4 +1,4 @@
-// RUN: %{ocl_tester} compile --device %{device_id} < %s
+// RUN: "%{ocl_tester}" compile --device %{device_id} < "%s"
 
 constant uint constant_var = 0;
 
