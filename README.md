@@ -64,6 +64,17 @@ To facilitate delivering reports to results page, we added separate CMake target
 
 This prints out filtered version of report and delivers it to our logging service, which notifies me daily about new test results to get in. If sending does not work for some reason, you may send test_out.json / filtered output directly to mikael.lepisto@vincit.fi.
 
+
+### Visual Studio Express 2013
+
+Use "Visual Studio 2013 Win64" generator.
+
+	mkdir build-vs-project
+	cd build-vs-project
+	cmake -G "Visual Studio 12 Win64" ../opencl-testsuite
+
+Open created opencl-testsuite.sln file and build `check` rule. To send results build `send-report` rule.
+
 ## Adding new tests
 
 All test cases are separate code files, which contains the code to test and in comments test scripts are inside test file in comments.
