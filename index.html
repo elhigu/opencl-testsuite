@@ -39,7 +39,9 @@
             devices.push({ device: device_info, tests : test_runs });
           })
 
-          $scope.result_json = devices;
+          $scope.result_json = _.sortBy(devices, function (value) { 
+            return [value.device.platformName, value.device.deviceName]; 
+          });
         };
 
         $http.jsonp(json_results_url);
