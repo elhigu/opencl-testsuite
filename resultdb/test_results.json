@@ -109,6 +109,51 @@ JSON_CALLBACK({
             "result": "PASS"
           }
         ]
+      }, 
+      "2014-05-06T12:59:05+03:00": {
+        "date": "2014-05-06T12:59:05+03:00", 
+        "tests": [
+          {
+            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
+            "output": "N/A", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
+            "output": "N/A", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/test_suite_usage_example.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/use_local_address_in_inline_function.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_value_to_local_memory_variable.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
+            "output": "N/A", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }
+        ]
       }
     }
   }, 
@@ -222,6 +267,51 @@ JSON_CALLBACK({
             "result": "FAIL"
           }
         ]
+      }, 
+      "2014-05-06T12:59:05+03:00": {
+        "date": "2014-05-06T12:59:05+03:00", 
+        "tests": [
+          {
+            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
+            "output": "N/A", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
+            "output": "N/A", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/test_suite_usage_example.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/use_local_address_in_inline_function.cl", 
+            "output": "N/A", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/write_value_to_local_memory_variable.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
+            "output": "N/A", 
+            "result": "FAIL"
+          }
+        ]
       }
     }
   }, 
@@ -306,6 +396,51 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/next_fail.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/test_suite_usage_example.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/use_local_address_in_inline_function.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_value_to_local_memory_variable.cl", 
+            "output": "N/A", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }
+        ]
+      }, 
+      "2014-05-06T12:59:05+03:00": {
+        "date": "2014-05-06T12:59:05+03:00", 
+        "tests": [
+          {
+            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
+            "output": "N/A", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
             "output": "N/A", 
             "result": "PASS"
           }, 
