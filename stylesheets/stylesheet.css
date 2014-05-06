@@ -371,6 +371,21 @@ footer a:hover {
 /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
 @media only screen and (max-width: 479px) {}
 
+/* Result summary styles */
+.summary-driver-results {
+  margin-left: 20px;
+}
+
+.test-result {
+  color: #0f0;
+}
+
+.test-result.fail {
+  color: #f00;
+}
+
+/* Result table styles */
+
 .device-info {
   width: 480px;
   float: left;
