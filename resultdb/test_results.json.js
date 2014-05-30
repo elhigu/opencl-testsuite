@@ -1,4 +1,4 @@
-JSON_CALLBACK({
+window.raw_test_data = {
   "36113698626065281": {
     "deviceInfo": {
       "deviceName": "GeForce GT 650M", 
@@ -981,4 +981,4 @@ JSON_CALLBACK({
       }
     }
   }
-});
+};

@@ -95,4 +95,6 @@ for hash_code,report in results.iteritems():
 		device_data['results'][result_date] = result_entry
 
 
-print "JSON_CALLBACK(" + json.dumps(devices, indent=2) + ");"
+# print "JSON_CALLBACK(" + json.dumps(devices, indent=2) + ");"
+# print json.dumps(devices, indent=2)
+print "window.raw_test_data = " + json.dumps(devices, indent=2) + ";"
