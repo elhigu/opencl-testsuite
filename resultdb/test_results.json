@@ -1,4 +1,4 @@
-JSON_CALLBACK({
+{
   "36113698626065281": {
     "deviceInfo": {
       "deviceName": "GeForce GT 650M", 
@@ -20,17 +20,17 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/constant_struct_has_pointer_to_self.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4118009272609614020 < tests/kernel/constant_struct_has_pointer_to_self.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\n.kR\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
             "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4118009272609614020 < tests/kernel/nested_struct_with_local_memory_pointers.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nptxas application ptx input, line 19; error   : Arguments mismatch for instruction 'mov'\nptxas application ptx input, line 19; error   : Unknown symbol 'Lnested_struct_with_local_memory_pointers_2E_a'\nptxas application ptx input, line 19; error   : Label expected for forward reference of 'Lnested_struct_with_local_memory_pointers_2E_a'\nptxas fatal   : Ptx assembly aborted due to errors\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
             "test": "kernel/next_fail.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4118009272609614020 < tests/kernel/next_fail.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nptxas application ptx input, line 26; error   : Arguments mismatch for instruction 'mov'\nptxas application ptx input, line 26; error   : Unknown symbol 'Limage_copy_2E__wcl_allocations_allocation'\nptxas application ptx input, line 26; error   : Label expected for forward reference of 'Limage_copy_2E__wcl_allocations_allocation'\nptxas fatal   : Ptx assembly aborted due to errors\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -50,7 +50,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/write_wg_size_to_local_memory_table.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4118009272609614020 < tests/kernel/write_wg_size_to_local_memory_table.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nError getting function data from server\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -70,17 +70,17 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/constant_struct_has_pointer_to_self.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 7947762985699276228 < tests/kernel/constant_struct_has_pointer_to_self.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\n.kR\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
             "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 7947762985699276228 < tests/kernel/nested_struct_with_local_memory_pointers.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nptxas application ptx input, line 19; error   : Arguments mismatch for instruction 'mov'\nptxas application ptx input, line 19; error   : Unknown symbol 'Lnested_struct_with_local_memory_pointers_2E_a'\nptxas application ptx input, line 19; error   : Label expected for forward reference of 'Lnested_struct_with_local_memory_pointers_2E_a'\nptxas fatal   : Ptx assembly aborted due to errors\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
             "test": "kernel/next_fail.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 7947762985699276228 < tests/kernel/next_fail.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nptxas application ptx input, line 26; error   : Arguments mismatch for instruction 'mov'\nptxas application ptx input, line 26; error   : Unknown symbol 'Limage_copy_2E__wcl_allocations_allocation'\nptxas application ptx input, line 26; error   : Label expected for forward reference of 'Limage_copy_2E__wcl_allocations_allocation'\nptxas fatal   : Ptx assembly aborted due to errors\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -100,7 +100,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/write_wg_size_to_local_memory_table.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 7947762985699276228 < tests/kernel/write_wg_size_to_local_memory_table.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nError getting function data from server\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -120,12 +120,12 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/constant_struct_has_pointer_to_self.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 4118009272609614020 < \"tests/kernel/constant_struct_has_pointer_to_self.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"4118009272609614020\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\n-------- Build log: --------\n.kR\n\n\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
             "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 4118009272609614020 < \"tests/kernel/nested_struct_with_local_memory_pointers.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"4118009272609614020\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\n-------- Build log: --------\nptxas application ptx input, line 19; error   : Arguments mismatch for instruction 'mov'\nptxas application ptx input, line 19; error   : Unknown symbol 'Lnested_struct_with_local_memory_pointers_2E_a'\nptxas application ptx input, line 19; error   : Label expected for forward reference of 'Lnested_struct_with_local_memory_pointers_2E_a'\nptxas fatal   : Ptx assembly aborted due to errors\n\n\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -145,7 +145,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/write_wg_size_to_local_memory_table.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 4118009272609614020 < \"tests/kernel/write_wg_size_to_local_memory_table.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"4118009272609614020\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\n-------- Build log: --------\nError getting function data from server\n\n\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -173,7 +173,7 @@ JSON_CALLBACK({
         "tests": [
           {
             "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 13648214698896804304 < tests/kernel/cast_and_do_arithmetics_with_local_pointer.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -183,7 +183,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 13648214698896804304 < tests/kernel/nested_struct_with_local_memory_pointers.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -198,7 +198,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/use_local_address_in_inline_function.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 13648214698896804304 < tests/kernel/use_local_address_in_inline_function.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -213,7 +213,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/zero_low_or_high_bits_of_local.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 13648214698896804304 < tests/kernel/zero_low_or_high_bits_of_local.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n--\n\n", 
             "result": "FAIL"
           }
         ]
@@ -223,7 +223,7 @@ JSON_CALLBACK({
         "tests": [
           {
             "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4815861465216327544 < tests/kernel/cast_and_do_arithmetics_with_local_pointer.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -233,7 +233,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4815861465216327544 < tests/kernel/nested_struct_with_local_memory_pointers.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -248,7 +248,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/use_local_address_in_inline_function.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4815861465216327544 < tests/kernel/use_local_address_in_inline_function.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -263,7 +263,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/zero_low_or_high_bits_of_local.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4815861465216327544 < tests/kernel/zero_low_or_high_bits_of_local.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n--\n\n", 
             "result": "FAIL"
           }
         ]
@@ -273,7 +273,7 @@ JSON_CALLBACK({
         "tests": [
           {
             "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 13648214698896804304 < \"tests/kernel/cast_and_do_arithmetics_with_local_pointer.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"13648214698896804304\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -283,7 +283,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 13648214698896804304 < \"tests/kernel/nested_struct_with_local_memory_pointers.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"13648214698896804304\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -293,7 +293,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/use_local_address_in_inline_function.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 13648214698896804304 < \"tests/kernel/use_local_address_in_inline_function.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"13648214698896804304\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -308,7 +308,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/zero_low_or_high_bits_of_local.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 13648214698896804304 < \"tests/kernel/zero_low_or_high_bits_of_local.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"13648214698896804304\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n\n\n--\n\n", 
             "result": "FAIL"
           }
         ]
@@ -361,7 +361,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/write_value_to_local_memory_variable.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 1325316654700832193 < tests/kernel/write_value_to_local_memory_variable.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nError: parse error.\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -411,7 +411,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/write_value_to_local_memory_variable.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 1646481365864493515 < tests/kernel/write_value_to_local_memory_variable.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nError: parse error.\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -431,7 +431,7 @@ JSON_CALLBACK({
         "tests": [
           {
             "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 1325316654700832193 < \"tests/kernel/cast_and_do_arithmetics_with_local_pointer.cl\"\n--\nExit Code: -11\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"1325316654700832193\"\nCommand 0 Result: -11\nCommand 0 Output:\n\n\nCommand 0 Stderr:\n\n\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -456,7 +456,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/write_value_to_local_memory_variable.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 1325316654700832193 < \"tests/kernel/write_value_to_local_memory_variable.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"1325316654700832193\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\n-------- Build log: --------\nError: parse error.\n\n\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -493,17 +493,17 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/constant_struct_has_pointer_to_self.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 7947762985699276228 < tests/kernel/constant_struct_has_pointer_to_self.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\n.kR\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
             "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 7947762985699276228 < tests/kernel/nested_struct_with_local_memory_pointers.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nptxas application ptx input, line 19; error   : Arguments mismatch for instruction 'mov'\nptxas application ptx input, line 19; error   : Unknown symbol 'Lnested_struct_with_local_memory_pointers_2E_a'\nptxas application ptx input, line 19; error   : Label expected for forward reference of 'Lnested_struct_with_local_memory_pointers_2E_a'\nptxas fatal   : Ptx assembly aborted due to errors\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
             "test": "kernel/next_fail.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 7947762985699276228 < tests/kernel/next_fail.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nptxas application ptx input, line 26; error   : Arguments mismatch for instruction 'mov'\nptxas application ptx input, line 26; error   : Unknown symbol 'Limage_copy_2E__wcl_allocations_allocation'\nptxas application ptx input, line 26; error   : Label expected for forward reference of 'Limage_copy_2E__wcl_allocations_allocation'\nptxas fatal   : Ptx assembly aborted due to errors\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -523,7 +523,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/write_wg_size_to_local_memory_table.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 7947762985699276228 < tests/kernel/write_wg_size_to_local_memory_table.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nError getting function data from server\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -556,12 +556,12 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/constant_struct_has_pointer_to_self.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4366402263448290745 < tests/kernel/constant_struct_has_pointer_to_self.cl\n--\nExit Code: 134\n\nCommand Output (stderr):\n--\n/tmp/poclvJrWzo//program.cl:8:40: warning: incompatible pointer types initializing '__constant int *' with an expression of type '__constant int *__constant *'\nconstant ConstantPool constants = { 1, &constants.firstPtr };\n                                       ^~~~~~~~~~~~~~~~~~~\nBitcasts between pointers of different address spaces is not legal.Use AddrSpaceCast instead.\ni32 addrspace(3)* bitcast (i8* getelementptr (i8* bitcast (%struct.ConstantPool addrspace(3)* @constants to i8*), i64 8) to i32 addrspace(3)*)\nBroken module found, compilation aborted!\nrun_scripts/device_4366402263448290745/kernel/Output/constant_struct_has_pointer_to_self.cl.script: line 1:  1095 Aborted                 (core dumped) tools/ocl-tester/ocl-tester compile --device 4366402263448290745 < tests/kernel/constant_struct_has_pointer_to_self.cl\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
             "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4366402263448290745 < tests/kernel/nested_struct_with_local_memory_pointers.cl\n--\nExit Code: 134\n\nCommand Output (stderr):\n--\nBitcasts between pointers of different address spaces is not legal.Use AddrSpaceCast instead.\ni32 addrspace(2)* bitcast (i8* getelementptr (i8* bitcast (i32 addrspace(2)* @nested_struct_with_local_memory_pointers.limits to i8*), i64 4) to i32 addrspace(2)*)\nBroken module found, compilation aborted!\nrun_scripts/device_4366402263448290745/kernel/Output/nested_struct_with_local_memory_pointers.cl.script: line 1:  1098 Aborted                 (core dumped) tools/ocl-tester/ocl-tester compile --device 4366402263448290745 < tests/kernel/nested_struct_with_local_memory_pointers.cl\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -571,7 +571,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/use_local_address_in_inline_function.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4366402263448290745 < tests/kernel/use_local_address_in_inline_function.cl\n--\nExit Code: 134\n\nCommand Output (stderr):\n--\n/tmp/pocl26Ub94//program.cl:10:12: warning: expression result unused\n    addr ? 0 : 1;\n           ^\nBitcasts between pointers of different address spaces is not legal.Use AddrSpaceCast instead.\ni32 addrspace(2)* bitcast (i8* getelementptr (i8* bitcast ([1 x i32] addrspace(2)* @local_address_in_inline_function.range to i8*), i64 4) to i32 addrspace(2)*)\nBroken module found, compilation aborted!\nrun_scripts/device_4366402263448290745/kernel/Output/use_local_address_in_inline_function.cl.script: line 1:  1102 Aborted                 (core dumped) tools/ocl-tester/ocl-tester compile --device 4366402263448290745 < tests/kernel/use_local_address_in_inline_function.cl\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -644,7 +644,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/zero_low_or_high_bits_of_local.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\n\"tools/ocl-tester/Debug/ocl-tester.exe\" compile --device 4008618669 < \"tests\\kernel\\zero_low_or_high_bits_of_local.cl\"\n--\nExit Code: 3\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/Debug/ocl-tester.exe\" \"compile\" \"--device\" \"4008618669\"\nCommand 0 Result: 3\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nInstruction does not dominate all uses!\n  %5 = getelementptr i8 addrspace(3)* %1, i32 128\n  %2 = icmp ult i8 addrspace(3)* %5, %1\nInstruction does not dominate all uses!\n  %2 = icmp ult i8 addrspace(3)* %5, %1\n  %.v.i = select i1 %2, i8 addrspace(3)* %3, i8 addrspace(3)* %1\nInstruction does not dominate all uses!\n  %.v.i = select i1 %2, i8 addrspace(3)* %3, i8 addrspace(3)* %1\n  %4 = bitcast i8 addrspace(3)* %.v.i to i32 addrspace(3)*\nInstruction does not dominate all uses!\n  %4 = bitcast i8 addrspace(3)* %.v.i to i32 addrspace(3)*\n  store i32 0, i32 addrspace(3)* %4, align 4\nBroken module found, compilation aborted!\n\n\n\n--\n\n", 
             "result": "FAIL"
           }
         ]
@@ -689,7 +689,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/zero_low_or_high_bits_of_local.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\n\"tools/ocl-tester/Debug/ocl-tester.exe\" compile --device 4008618669 < \"tests/kernel/zero_low_or_high_bits_of_local.cl\"\n--\nExit Code: 3\n\nCommand Output (stderr):\n--\nInstruction does not dominate all uses!\n  %5 = getelementptr i8 addrspace(3)* %1, i32 128\n  %2 = icmp ult i8 addrspace(3)* %5, %1\nInstruction does not dominate all uses!\n  %2 = icmp ult i8 addrspace(3)* %5, %1\n  %.v.i = select i1 %2, i8 addrspace(3)* %3, i8 addrspace(3)* %1\nInstruction does not dominate all uses!\n  %.v.i = select i1 %2, i8 addrspace(3)* %3, i8 addrspace(3)* %1\n  %4 = bitcast i8 addrspace(3)* %.v.i to i32 addrspace(3)*\nInstruction does not dominate all uses!\n  %4 = bitcast i8 addrspace(3)* %.v.i to i32 addrspace(3)*\n  store i32 0, i32 addrspace(3)* %4, align 4\nBroken module found, compilation aborted!\n\n--\n\n", 
             "result": "FAIL"
           }
         ]
@@ -741,7 +741,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/write_value_to_local_memory_variable.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 1646481365864493515 < tests/kernel/write_value_to_local_memory_variable.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nError: parse error.\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -773,7 +773,7 @@ JSON_CALLBACK({
         "tests": [
           {
             "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4815861465216327544 < tests/kernel/cast_and_do_arithmetics_with_local_pointer.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -783,7 +783,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4815861465216327544 < tests/kernel/nested_struct_with_local_memory_pointers.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -798,7 +798,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/use_local_address_in_inline_function.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4815861465216327544 < tests/kernel/use_local_address_in_inline_function.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -813,7 +813,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/zero_low_or_high_bits_of_local.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4815861465216327544 < tests/kernel/zero_low_or_high_bits_of_local.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n--\n\n", 
             "result": "FAIL"
           }
         ]
@@ -871,7 +871,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/zero_low_or_high_bits_of_local.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\n\"tools/ocl-tester/Debug/ocl-tester.exe\" compile --device 2408192232 < \"tests\\kernel\\zero_low_or_high_bits_of_local.cl\"\n--\nExit Code: 3\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/Debug/ocl-tester.exe\" \"compile\" \"--device\" \"2408192232\"\nCommand 0 Result: 3\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nInstruction does not dominate all uses!\n  %5 = getelementptr i8 addrspace(3)* %1, i64 128\n  %2 = icmp ult i8 addrspace(3)* %5, %1\nInstruction does not dominate all uses!\n  %2 = icmp ult i8 addrspace(3)* %5, %1\n  %.v.i = select i1 %2, i8 addrspace(3)* %3, i8 addrspace(3)* %1\nInstruction does not dominate all uses!\n  %.v.i = select i1 %2, i8 addrspace(3)* %3, i8 addrspace(3)* %1\n  %4 = bitcast i8 addrspace(3)* %.v.i to i32 addrspace(3)*\nInstruction does not dominate all uses!\n  %4 = bitcast i8 addrspace(3)* %.v.i to i32 addrspace(3)*\n  store i32 0, i32 addrspace(3)* %4, align 4\nBroken module found, compilation aborted!\n\n\n\n--\n\n", 
             "result": "FAIL"
           }
         ]
@@ -899,7 +899,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/constant_struct_has_pointer_to_self.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\n\"tools/ocl-tester/Debug/ocl-tester.exe\" compile --device 2263283518 < \"tests\\kernel\\constant_struct_has_pointer_to_self.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/Debug/ocl-tester.exe\" \"compile\" \"--device\" \"2263283518\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\r\n-------- Build log: --------\r\nptxas application ptx input, line 11; : error : Variable used as initial value not in .global or .const state space\r\nptxas application ptx input, line 11; : error : Label expected for forward reference of 'constants'\r\nptxas : fatal error : Ptx assembly aborted due to errors\r\n\n\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -944,7 +944,7 @@ JSON_CALLBACK({
           }, 
           {
             "test": "kernel/constant_struct_has_pointer_to_self.cl", 
-            "output": "N/A", 
+            "output": "Script:\n--\n\"tools/ocl-tester/Debug/ocl-tester.exe\" compile --device 2263283518 < \"tests/kernel/constant_struct_has_pointer_to_self.cl\"\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\r\n-------- Build log: --------\r\nptxas application ptx input, line 11; : error : Variable used as initial value not in .global or .const state space\r\nptxas application ptx input, line 11; : error : Label expected for forward reference of 'constants'\r\nptxas : fatal error : Ptx assembly aborted due to errors\r\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -981,4 +981,4 @@ JSON_CALLBACK({
       }
     }
   }
-});
+}

@@ -46,12 +46,33 @@ results = json.loads("".join(fileinput.input()))
 # dictionary of all test results in db organized by device.
 devices = {}
 
+import re
 def read_output(output_msg):
-	# TODO: get test name and status and set output if exist... 
-	#       use some cencorship logic to find basepath 
-	#       e.g. from /<cencored>/tools/ocl-tester/ocl-tester and 
-	#                 /<cencored>/tests
-	return "N/A"
+	"""Very adhoc solution to hide some paths from debug output."""
+
+	if output_msg.strip() == "":
+		return "N/A"
+
+	out = u"";
+	build_dir = None
+	src_dir = None	
+
+	lines = output_msg.split("\n")
+	for i in range(len(lines)):
+		# marker to get build and source dir
+		if lines[i] == "Script:":
+			build_dir = re.findall('(\"|^)(.*?/)tools/ocl-tester/', lines[i+2])[-1][-1]
+			src_dir = re.findall(r'compile --device \d+ < \"?(.*?[/\\])tests[/\\]kernel', lines[i+2])[-1]
+
+		# write debug info only if found build and src dirs
+		if build_dir and src_dir:
+			filtered_line = lines[i].replace(build_dir,'').replace(src_dir,'') + u"\n"
+			out += filtered_line
+
+	if build_dir is None or src_dir is None:
+		raise Exception("Could not parse error message.")
+
+	return out
 
 def resolve_device_struct(report, device_id):
 	selected_device = None
@@ -96,5 +117,5 @@ for hash_code,report in results.iteritems():
 
 
 # print "JSON_CALLBACK(" + json.dumps(devices, indent=2) + ");"
-# print json.dumps(devices, indent=2)
-print "window.raw_test_data = " + json.dumps(devices, indent=2) + ";"
+print json.dumps(devices, indent=2)
+# print "window.raw_test_data = " + json.dumps(devices, indent=2) + ";"
