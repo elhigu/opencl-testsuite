@@ -448,5 +448,31 @@ footer a:hover {
   font-family: 'arial', 'sans-serif';
 }
 
+/* Error log and result styles */
 
+.testResults {
+  width: 100%;
+  position: relative;
+}
 
+table {
+  width : 100%;
+  position: relative;
+  table-layout:fixed;
+}
+
+.errorlog {
+  text-align: left;
+  font-size: 8px;
+  overflow: auto;
+  left: 0;
+  right: 0;
+}
+
+.PASS {
+  color : green;
+}
+
+.FAIL {
+  color : red;
+}

@@ -15,16 +15,18 @@
     <script type="text/javascript" 
       src="https:/cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
 
-    <!-- read results to window.raw_test_data -->
+    <!-- read results to window.raw_test_data
     <script type="text/javascript" 
       src="https://rawgit.com/elhigu/opencl-testsuite/master/resultdb/test_results.json.js"></script>
-
+    -->
 
     <script>
       var app = angular.module("app", [])
+      app.config(['$httpProvider', function($httpProvider) {
+        delete $httpProvider.defaults.headers.common["X-Requested-With"];
+      }]);
 
-      //var json_results_url = 
-      //  'https://rawgit.com/elhigu/opencl-testsuite/master/resultdb/test_results.json';
+      var json_results_url = 'https://rawgit.com/elhigu/opencl-testsuite/master/resultdb/test_results.json';
 
       app.controller("AppCtrl", function ($scope, $http) {
 
@@ -84,15 +86,17 @@
           console.log("Summary:", $scope.summary_json);
         };
 
-        //$http({method: 'GET', url: json_results_url})
-        //.success(function(data, status, headers, config) {
-        //  createTestResults(data);
-        //})
-        //.error(function(data, status, headers, config) {
-        //  console.log("Could not read JSON. Please mail to mikael.lepisto@vincit.fi");
-        //});
+        // request data from github repo
+        $http({method: 'GET', url: json_results_url})
+        .success(function(data, status, headers, config) {
+          createTestResults(data);
+        })
+        .error(function(data, status, headers, config) {
+          console.log("Could not read JSON. Please mail to mikael.lepisto@vincit.fi");
+        });
 
-        createTestResults(window.raw_test_data);
+        // in case if data loaded as plain JSON.js script
+        // createTestResults(window.raw_test_data);
 
         // Action callbacks
         $scope.showDetails = function (device_info, test_run) {
@@ -160,7 +164,7 @@
         <div class="summary-driver">
           <strong>Driver: </strong><span>{{driver.version}}</span>
           <span class="test-result" ng-class="{fail: driver.lastRun.passedTests != driver.lastRun.totalTests}">
-            Result: {{driver.lastRun.passedTests}} / {{driver.lastRun.totalTests}}
+            Passed: {{driver.lastRun.passedTests}} / {{driver.lastRun.totalTests}}
             <span ng-show="driver.lastRun.passedTests != driver.lastRun.totalTests">FAIL</span>
           </span>
           (<strong>Devices:</strong> <span ng-repeat="device in driver.devices">{{device}}</span>)
@@ -209,20 +213,26 @@
               {{details_view.test_run.runDate | date:'medium'}}<br/>
               Passed: {{details_view.test_run.passedTests}} / {{details_view.test_run.totalTests}}<br/>
             </div>
-            <table>
-              <thead>
-                <th>Test name</th>
-                <th>Result</th>
-                <th>Output</th>
-              </thead>
-              <tbody>
-                <tr ng-repeat="test in details_view.test_run.details">
-                  <td><a href="https://github.com/elhigu/opencl-testsuite/tree/master/tests/{{test.test}}" target="_blank">{{test.test}}</a></td>
-                  <td>{{test.result}}</td>
-                  <td>{{test.output}}</td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="testResults">
+              <table>
+                <thead>
+                  <th><h3>Tests</h3></th>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="test in details_view.test_run.details">
+                    <td>
+                      <span ng-class="test.result">
+                        <a href="https://github.com/elhigu/opencl-testsuite/tree/master/tests/{{test.test}}" target="_blank">{{test.test}}</a>
+                        <span>{{test.result}}</span>
+                      </span>
+                      <pre ng-show="test.output.length > 3" class="errorlog">
+                        {{test.output}}
+                      </pre>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
             <div>
               <h4>Test kernel sources are here:</h4>
               <a href="https://github.com/elhigu/opencl-testsuite/tree/master/tests/kernel" target="_blank">https://github.com/elhigu/opencl-testsuite/tree/master/tests/kernel</a>
