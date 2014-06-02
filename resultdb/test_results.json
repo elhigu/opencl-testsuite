@@ -535,6 +535,64 @@
       }
     }
   }, 
+  "2777310926162695247": {
+    "deviceInfo": {
+      "deviceName": "GeForce GT 650M", 
+      "uuid": 2777310926162695247, 
+      "driverVersion": "337.88", 
+      "platformVersion": "OpenCL 1.1 CUDA 6.0.1", 
+      "platformName": "NVIDIA CUDA", 
+      "openCLCVersion": "OpenCL C 1.1", 
+      "deviceVersion": "OpenCL 1.1 CUDA"
+    }, 
+    "results": {
+      "2014-06-02T22:37:07+03:00": {
+        "date": "2014-06-02T22:37:07+03:00", 
+        "tests": [
+          {
+            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
+            "output": "Script:\n--\n\"tools/ocl-tester/Debug/ocl-tester.exe\" compile --device 3742055014 < \"tests\\kernel\\constant_struct_has_pointer_to_self.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/Debug/ocl-tester.exe\" \"compile\" \"--device\" \"3742055014\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\r\n-------- Build log: --------\r\nptxas application ptx input, line 11; : error : Variable used as initial value not in .global or .const state space\r\nptxas application ptx input, line 11; : error : Label expected for forward reference of 'constants'\r\nptxas : fatal error : Ptx assembly aborted due to errors\r\n\n\n\n--\n\n", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/test_suite_usage_example.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/use_local_address_in_inline_function.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_value_to_local_memory_variable.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }
+        ]
+      }
+    }
+  }, 
   "2971114038524396273": {
     "deviceInfo": {
       "deviceName": "pthread-Intel(R) Core(TM) i7-3615QM CPU @ 2.30GHz", 
@@ -588,109 +646,6 @@
             "test": "kernel/zero_low_or_high_bits_of_local.cl", 
             "output": "N/A", 
             "result": "PASS"
-          }
-        ]
-      }
-    }
-  }, 
-  "5511004961981190421": {
-    "deviceInfo": {
-      "deviceName": "Intel(R) Core(TM) i7-3615QM CPU @ 2.30GHz", 
-      "uuid": 5511004961981190421, 
-      "driverVersion": "3.0.1.15216", 
-      "platformVersion": "OpenCL 1.2", 
-      "platformName": "Intel(R) OpenCL", 
-      "openCLCVersion": "OpenCL C 1.2", 
-      "deviceVersion": "OpenCL 1.2 (Build 80752)"
-    }, 
-    "results": {
-      "2014-04-13T03:17:34+03:00": {
-        "date": "2014-04-13T03:17:34+03:00", 
-        "tests": [
-          {
-            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/test_suite_usage_example.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/use_local_address_in_inline_function.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/write_value_to_local_memory_variable.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
-            "output": "Script:\n--\n\"tools/ocl-tester/Debug/ocl-tester.exe\" compile --device 4008618669 < \"tests\\kernel\\zero_low_or_high_bits_of_local.cl\"\n--\nExit Code: 3\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/Debug/ocl-tester.exe\" \"compile\" \"--device\" \"4008618669\"\nCommand 0 Result: 3\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nInstruction does not dominate all uses!\n  %5 = getelementptr i8 addrspace(3)* %1, i32 128\n  %2 = icmp ult i8 addrspace(3)* %5, %1\nInstruction does not dominate all uses!\n  %2 = icmp ult i8 addrspace(3)* %5, %1\n  %.v.i = select i1 %2, i8 addrspace(3)* %3, i8 addrspace(3)* %1\nInstruction does not dominate all uses!\n  %.v.i = select i1 %2, i8 addrspace(3)* %3, i8 addrspace(3)* %1\n  %4 = bitcast i8 addrspace(3)* %.v.i to i32 addrspace(3)*\nInstruction does not dominate all uses!\n  %4 = bitcast i8 addrspace(3)* %.v.i to i32 addrspace(3)*\n  store i32 0, i32 addrspace(3)* %4, align 4\nBroken module found, compilation aborted!\n\n\n\n--\n\n", 
-            "result": "FAIL"
-          }
-        ]
-      }, 
-      "2014-04-13T02:43:06+03:00": {
-        "date": "2014-04-13T02:43:06+03:00", 
-        "tests": [
-          {
-            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/test_suite_usage_example.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/use_local_address_in_inline_function.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/write_value_to_local_memory_variable.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
-            "output": "Script:\n--\n\"tools/ocl-tester/Debug/ocl-tester.exe\" compile --device 4008618669 < \"tests/kernel/zero_low_or_high_bits_of_local.cl\"\n--\nExit Code: 3\n\nCommand Output (stderr):\n--\nInstruction does not dominate all uses!\n  %5 = getelementptr i8 addrspace(3)* %1, i32 128\n  %2 = icmp ult i8 addrspace(3)* %5, %1\nInstruction does not dominate all uses!\n  %2 = icmp ult i8 addrspace(3)* %5, %1\n  %.v.i = select i1 %2, i8 addrspace(3)* %3, i8 addrspace(3)* %1\nInstruction does not dominate all uses!\n  %.v.i = select i1 %2, i8 addrspace(3)* %3, i8 addrspace(3)* %1\n  %4 = bitcast i8 addrspace(3)* %.v.i to i32 addrspace(3)*\nInstruction does not dominate all uses!\n  %4 = bitcast i8 addrspace(3)* %.v.i to i32 addrspace(3)*\n  store i32 0, i32 addrspace(3)* %4, align 4\nBroken module found, compilation aborted!\n\n--\n\n", 
-            "result": "FAIL"
           }
         ]
       }
@@ -753,126 +708,6 @@
             "test": "kernel/zero_low_or_high_bits_of_local.cl", 
             "output": "N/A", 
             "result": "PASS"
-          }
-        ]
-      }
-    }
-  }, 
-  "1536732093089095291": {
-    "deviceInfo": {
-      "deviceName": "Intel(R) Core(TM) i7-3615QM CPU @ 2.30GHz", 
-      "uuid": 1536732093089095291, 
-      "driverVersion": "1.1", 
-      "platformName": "Apple", 
-      "openCLCVersion": "OpenCL C 1.2", 
-      "deviceVersion": "OpenCL 1.2"
-    }, 
-    "results": {
-      "2014-04-09T22:45:47+03:00": {
-        "date": "2014-04-09T22:45:47+03:00", 
-        "tests": [
-          {
-            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
-            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4815861465216327544 < tests/kernel/cast_and_do_arithmetics_with_local_pointer.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n--\n\n", 
-            "result": "FAIL"
-          }, 
-          {
-            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
-            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4815861465216327544 < tests/kernel/nested_struct_with_local_memory_pointers.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n--\n\n", 
-            "result": "FAIL"
-          }, 
-          {
-            "test": "kernel/next_fail.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/test_suite_usage_example.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/use_local_address_in_inline_function.cl", 
-            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4815861465216327544 < tests/kernel/use_local_address_in_inline_function.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n--\n\n", 
-            "result": "FAIL"
-          }, 
-          {
-            "test": "kernel/write_value_to_local_memory_variable.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
-            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4815861465216327544 < tests/kernel/zero_low_or_high_bits_of_local.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n--\n\n", 
-            "result": "FAIL"
-          }
-        ]
-      }
-    }
-  }, 
-  "3285735189821986446": {
-    "deviceInfo": {
-      "deviceName": "Intel(R) Core(TM) i7-3540M CPU @ 3.00GHz", 
-      "uuid": 3285735189821986446, 
-      "driverVersion": "3.0.1.10878", 
-      "platformVersion": "OpenCL 1.2", 
-      "platformName": "Intel(R) OpenCL", 
-      "openCLCVersion": "OpenCL C 1.2", 
-      "deviceVersion": "OpenCL 1.2 (Build 76413)"
-    }, 
-    "results": {
-      "2014-04-28T16:09:29+03:00": {
-        "date": "2014-04-28T16:09:29+03:00", 
-        "tests": [
-          {
-            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/test_suite_usage_example.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/use_local_address_in_inline_function.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/write_value_to_local_memory_variable.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
-            "output": "Script:\n--\n\"tools/ocl-tester/Debug/ocl-tester.exe\" compile --device 2408192232 < \"tests\\kernel\\zero_low_or_high_bits_of_local.cl\"\n--\nExit Code: 3\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/Debug/ocl-tester.exe\" \"compile\" \"--device\" \"2408192232\"\nCommand 0 Result: 3\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nInstruction does not dominate all uses!\n  %5 = getelementptr i8 addrspace(3)* %1, i64 128\n  %2 = icmp ult i8 addrspace(3)* %5, %1\nInstruction does not dominate all uses!\n  %2 = icmp ult i8 addrspace(3)* %5, %1\n  %.v.i = select i1 %2, i8 addrspace(3)* %3, i8 addrspace(3)* %1\nInstruction does not dominate all uses!\n  %.v.i = select i1 %2, i8 addrspace(3)* %3, i8 addrspace(3)* %1\n  %4 = bitcast i8 addrspace(3)* %.v.i to i32 addrspace(3)*\nInstruction does not dominate all uses!\n  %4 = bitcast i8 addrspace(3)* %.v.i to i32 addrspace(3)*\n  store i32 0, i32 addrspace(3)* %4, align 4\nBroken module found, compilation aborted!\n\n\n\n--\n\n", 
-            "result": "FAIL"
           }
         ]
       }
@@ -976,6 +811,287 @@
             "test": "kernel/zero_low_or_high_bits_of_local.cl", 
             "output": "N/A", 
             "result": "PASS"
+          }
+        ]
+      }
+    }
+  }, 
+  "1536732093089095291": {
+    "deviceInfo": {
+      "deviceName": "Intel(R) Core(TM) i7-3615QM CPU @ 2.30GHz", 
+      "uuid": 1536732093089095291, 
+      "driverVersion": "1.1", 
+      "platformName": "Apple", 
+      "openCLCVersion": "OpenCL C 1.2", 
+      "deviceVersion": "OpenCL 1.2"
+    }, 
+    "results": {
+      "2014-04-09T22:45:47+03:00": {
+        "date": "2014-04-09T22:45:47+03:00", 
+        "tests": [
+          {
+            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4815861465216327544 < tests/kernel/cast_and_do_arithmetics_with_local_pointer.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n--\n\n", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4815861465216327544 < tests/kernel/nested_struct_with_local_memory_pointers.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n--\n\n", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/next_fail.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/test_suite_usage_example.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/use_local_address_in_inline_function.cl", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4815861465216327544 < tests/kernel/use_local_address_in_inline_function.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n--\n\n", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/write_value_to_local_memory_variable.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4815861465216327544 < tests/kernel/zero_low_or_high_bits_of_local.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n--\n\n", 
+            "result": "FAIL"
+          }
+        ]
+      }
+    }
+  }, 
+  "1697964673692685724": {
+    "deviceInfo": {
+      "deviceName": "Intel(R) Core(TM) i7-3615QM CPU @ 2.30GHz", 
+      "uuid": 1697964673692685724, 
+      "driverVersion": "4.4.0.117", 
+      "platformVersion": "OpenCL 1.2", 
+      "platformName": "Intel(R) OpenCL", 
+      "openCLCVersion": "OpenCL C 1.2", 
+      "deviceVersion": "OpenCL 1.2 (Build 117)"
+    }, 
+    "results": {
+      "2014-06-02T22:37:07+03:00": {
+        "date": "2014-06-02T22:37:07+03:00", 
+        "tests": [
+          {
+            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/test_suite_usage_example.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/use_local_address_in_inline_function.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_value_to_local_memory_variable.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }
+        ]
+      }
+    }
+  }, 
+  "3285735189821986446": {
+    "deviceInfo": {
+      "deviceName": "Intel(R) Core(TM) i7-3540M CPU @ 3.00GHz", 
+      "uuid": 3285735189821986446, 
+      "driverVersion": "3.0.1.10878", 
+      "platformVersion": "OpenCL 1.2", 
+      "platformName": "Intel(R) OpenCL", 
+      "openCLCVersion": "OpenCL C 1.2", 
+      "deviceVersion": "OpenCL 1.2 (Build 76413)"
+    }, 
+    "results": {
+      "2014-04-28T16:09:29+03:00": {
+        "date": "2014-04-28T16:09:29+03:00", 
+        "tests": [
+          {
+            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/test_suite_usage_example.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/use_local_address_in_inline_function.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_value_to_local_memory_variable.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
+            "output": "Script:\n--\n\"tools/ocl-tester/Debug/ocl-tester.exe\" compile --device 2408192232 < \"tests\\kernel\\zero_low_or_high_bits_of_local.cl\"\n--\nExit Code: 3\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/Debug/ocl-tester.exe\" \"compile\" \"--device\" \"2408192232\"\nCommand 0 Result: 3\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nInstruction does not dominate all uses!\n  %5 = getelementptr i8 addrspace(3)* %1, i64 128\n  %2 = icmp ult i8 addrspace(3)* %5, %1\nInstruction does not dominate all uses!\n  %2 = icmp ult i8 addrspace(3)* %5, %1\n  %.v.i = select i1 %2, i8 addrspace(3)* %3, i8 addrspace(3)* %1\nInstruction does not dominate all uses!\n  %.v.i = select i1 %2, i8 addrspace(3)* %3, i8 addrspace(3)* %1\n  %4 = bitcast i8 addrspace(3)* %.v.i to i32 addrspace(3)*\nInstruction does not dominate all uses!\n  %4 = bitcast i8 addrspace(3)* %.v.i to i32 addrspace(3)*\n  store i32 0, i32 addrspace(3)* %4, align 4\nBroken module found, compilation aborted!\n\n\n\n--\n\n", 
+            "result": "FAIL"
+          }
+        ]
+      }
+    }
+  }, 
+  "5511004961981190421": {
+    "deviceInfo": {
+      "deviceName": "Intel(R) Core(TM) i7-3615QM CPU @ 2.30GHz", 
+      "uuid": 5511004961981190421, 
+      "driverVersion": "3.0.1.15216", 
+      "platformVersion": "OpenCL 1.2", 
+      "platformName": "Intel(R) OpenCL", 
+      "openCLCVersion": "OpenCL C 1.2", 
+      "deviceVersion": "OpenCL 1.2 (Build 80752)"
+    }, 
+    "results": {
+      "2014-04-13T03:17:34+03:00": {
+        "date": "2014-04-13T03:17:34+03:00", 
+        "tests": [
+          {
+            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/test_suite_usage_example.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/use_local_address_in_inline_function.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_value_to_local_memory_variable.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
+            "output": "Script:\n--\n\"tools/ocl-tester/Debug/ocl-tester.exe\" compile --device 4008618669 < \"tests\\kernel\\zero_low_or_high_bits_of_local.cl\"\n--\nExit Code: 3\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/Debug/ocl-tester.exe\" \"compile\" \"--device\" \"4008618669\"\nCommand 0 Result: 3\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nInstruction does not dominate all uses!\n  %5 = getelementptr i8 addrspace(3)* %1, i32 128\n  %2 = icmp ult i8 addrspace(3)* %5, %1\nInstruction does not dominate all uses!\n  %2 = icmp ult i8 addrspace(3)* %5, %1\n  %.v.i = select i1 %2, i8 addrspace(3)* %3, i8 addrspace(3)* %1\nInstruction does not dominate all uses!\n  %.v.i = select i1 %2, i8 addrspace(3)* %3, i8 addrspace(3)* %1\n  %4 = bitcast i8 addrspace(3)* %.v.i to i32 addrspace(3)*\nInstruction does not dominate all uses!\n  %4 = bitcast i8 addrspace(3)* %.v.i to i32 addrspace(3)*\n  store i32 0, i32 addrspace(3)* %4, align 4\nBroken module found, compilation aborted!\n\n\n\n--\n\n", 
+            "result": "FAIL"
+          }
+        ]
+      }, 
+      "2014-04-13T02:43:06+03:00": {
+        "date": "2014-04-13T02:43:06+03:00", 
+        "tests": [
+          {
+            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/test_suite_usage_example.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/use_local_address_in_inline_function.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_value_to_local_memory_variable.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
+            "output": "Script:\n--\n\"tools/ocl-tester/Debug/ocl-tester.exe\" compile --device 4008618669 < \"tests/kernel/zero_low_or_high_bits_of_local.cl\"\n--\nExit Code: 3\n\nCommand Output (stderr):\n--\nInstruction does not dominate all uses!\n  %5 = getelementptr i8 addrspace(3)* %1, i32 128\n  %2 = icmp ult i8 addrspace(3)* %5, %1\nInstruction does not dominate all uses!\n  %2 = icmp ult i8 addrspace(3)* %5, %1\n  %.v.i = select i1 %2, i8 addrspace(3)* %3, i8 addrspace(3)* %1\nInstruction does not dominate all uses!\n  %.v.i = select i1 %2, i8 addrspace(3)* %3, i8 addrspace(3)* %1\n  %4 = bitcast i8 addrspace(3)* %.v.i to i32 addrspace(3)*\nInstruction does not dominate all uses!\n  %4 = bitcast i8 addrspace(3)* %.v.i to i32 addrspace(3)*\n  store i32 0, i32 addrspace(3)* %4, align 4\nBroken module found, compilation aborted!\n\n--\n\n", 
+            "result": "FAIL"
           }
         ]
       }
