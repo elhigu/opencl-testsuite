@@ -315,6 +315,64 @@
       }
     }
   }, 
+  "2167460623121549666": {
+    "deviceInfo": {
+      "deviceName": "Intel(R) Core(TM) i7-3615QM CPU @ 2.30GHz", 
+      "uuid": 2167460623121549666, 
+      "driverVersion": "1214.3 (sse2,avx)", 
+      "platformVersion": "OpenCL 1.2 AMD-APP (1214.3)", 
+      "platformName": "AMD Accelerated Parallel Processing", 
+      "openCLCVersion": "OpenCL C 1.2", 
+      "deviceVersion": "OpenCL 1.2 AMD-APP (1214.3)"
+    }, 
+    "results": {
+      "2014-06-03T19:59:09+03:00": {
+        "date": "2014-06-03T19:59:09+03:00", 
+        "tests": [
+          {
+            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 12966164382429998151 < \"tests/kernel/constant_struct_has_pointer_to_self.cl\"\n--\nExit Code: -9\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"12966164382429998151\"\nCommand 0 Result: -9\nCommand 0 Output:\n\n\nCommand 0 Stderr:\n\n\n\n--\n\n", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/test_suite_usage_example.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/use_local_address_in_inline_function.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_value_to_local_memory_variable.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }
+        ]
+      }
+    }
+  }, 
   "2215996675198834701": {
     "deviceInfo": {
       "deviceName": "HD Graphics 4000", 
@@ -891,6 +949,64 @@
     "results": {
       "2014-06-02T22:37:07+03:00": {
         "date": "2014-06-02T22:37:07+03:00", 
+        "tests": [
+          {
+            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/test_suite_usage_example.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/use_local_address_in_inline_function.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_value_to_local_memory_variable.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }
+        ]
+      }
+    }
+  }, 
+  "5766939111299164861": {
+    "deviceInfo": {
+      "deviceName": "Intel(R) Core(TM) i7-3615QM CPU @ 2.30GHz", 
+      "uuid": 5766939111299164861, 
+      "driverVersion": "1.2.0.44", 
+      "platformVersion": "OpenCL 1.2 LINUX", 
+      "platformName": "Intel(R) OpenCL", 
+      "openCLCVersion": "OpenCL C 1.2", 
+      "deviceVersion": "OpenCL 1.2 (Build 44)"
+    }, 
+    "results": {
+      "2014-06-03T19:59:09+03:00": {
+        "date": "2014-06-03T19:59:09+03:00", 
         "tests": [
           {
             "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
