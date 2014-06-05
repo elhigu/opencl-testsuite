@@ -315,6 +315,64 @@
       }
     }
   }, 
+  "2160761214895047395": {
+    "deviceInfo": {
+      "deviceName": "Intel(R) Core(TM) i5-3550 CPU @ 3.30GHz", 
+      "uuid": 2160761214895047395, 
+      "driverVersion": "1.2", 
+      "platformVersion": "OpenCL 1.2 LINUX", 
+      "platformName": "Intel(R) OpenCL", 
+      "openCLCVersion": "OpenCL C 1.2", 
+      "deviceVersion": "OpenCL 1.2 (Build 67279)"
+    }, 
+    "results": {
+      "2014-06-05T01:31:48+03:00": {
+        "date": "2014-06-05T01:31:48+03:00", 
+        "tests": [
+          {
+            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/test_suite_usage_example.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/use_local_address_in_inline_function.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_value_to_local_memory_variable.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 14612492012353482991 < \"tests/kernel/zero_low_or_high_bits_of_local.cl\"\n--\nExit Code: -6\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"14612492012353482991\"\nCommand 0 Result: -6\nCommand 0 Output:\n\n\nCommand 0 Stderr:\ntools/ocl-tester/ocl-tester: /usr/lib/libOpenCL.so.1: no version information available (required by tools/ocl-tester/ocl-tester)\nInstruction does not dominate all uses!\n  %5 = getelementptr i8 addrspace(3)* %1, i64 128\n  %2 = icmp ult i8 addrspace(3)* %5, %1\nInstruction does not dominate all uses!\n  %2 = icmp ult i8 addrspace(3)* %5, %1\n  %.v.i = select i1 %2, i8 addrspace(3)* %3, i8 addrspace(3)* %1\nInstruction does not dominate all uses!\n  %.v.i = select i1 %2, i8 addrspace(3)* %3, i8 addrspace(3)* %1\n  %4 = bitcast i8 addrspace(3)* %.v.i to i32 addrspace(3)*\nInstruction does not dominate all uses!\n  %4 = bitcast i8 addrspace(3)* %.v.i to i32 addrspace(3)*\n  store i32 0, i32 addrspace(3)* %4, align 4\nBroken module found, compilation aborted!\n\n\n\n--\n\n", 
+            "result": "FAIL"
+          }
+        ]
+      }
+    }
+  }, 
   "2167460623121549666": {
     "deviceInfo": {
       "deviceName": "Intel(R) Core(TM) i7-3615QM CPU @ 2.30GHz", 
@@ -337,6 +395,64 @@
           {
             "test": "kernel/constant_struct_has_pointer_to_self.cl", 
             "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 12966164382429998151 < \"tests/kernel/constant_struct_has_pointer_to_self.cl\"\n--\nExit Code: -9\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"12966164382429998151\"\nCommand 0 Result: -9\nCommand 0 Output:\n\n\nCommand 0 Stderr:\n\n\n\n--\n\n", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/test_suite_usage_example.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/use_local_address_in_inline_function.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_value_to_local_memory_variable.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }
+        ]
+      }
+    }
+  }, 
+  "4716076892825809223": {
+    "deviceInfo": {
+      "deviceName": "Tesla K20c", 
+      "uuid": 4716076892825809223, 
+      "driverVersion": "331.20", 
+      "platformVersion": "OpenCL 1.1 CUDA 6.0.1", 
+      "platformName": "NVIDIA CUDA", 
+      "openCLCVersion": "OpenCL C 1.1", 
+      "deviceVersion": "OpenCL 1.1 CUDA"
+    }, 
+    "results": {
+      "2014-06-05T01:31:48+03:00": {
+        "date": "2014-06-05T01:31:48+03:00", 
+        "tests": [
+          {
+            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 1918903444263960877 < \"tests/kernel/constant_struct_has_pointer_to_self.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"1918903444263960877\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\ntools/ocl-tester/ocl-tester: /usr/lib/libOpenCL.so.1: no version information available (required by tools/ocl-tester/ocl-tester)\nError: Failed to build program... reading build log...\n-------- Build log: --------\nptxas application ptx input, line 11; error   : Variable used as initial value not in .global or .const state space\nptxas application ptx input, line 11; error   : Label expected for forward reference of 'constants'\nptxas fatal   : Ptx assembly aborted due to errors\n\n\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -651,19 +767,19 @@
       }
     }
   }, 
-  "2971114038524396273": {
+  "3593271483530631983": {
     "deviceInfo": {
-      "deviceName": "pthread-Intel(R) Core(TM) i7-3615QM CPU @ 2.30GHz", 
-      "uuid": 2971114038524396273, 
-      "driverVersion": "0.9", 
-      "platformVersion": "OpenCL 1.2 pocl 0.9", 
-      "platformName": "Portable Computing Language", 
+      "deviceName": "Hawaii", 
+      "uuid": 3593271483530631983, 
+      "driverVersion": "1411.4 (VM)", 
+      "platformVersion": "OpenCL 1.2 AMD-APP (1411.4)", 
+      "platformName": "AMD Accelerated Parallel Processing", 
       "openCLCVersion": "OpenCL C 1.2", 
-      "deviceVersion": "OpenCL 1.2 pocl"
+      "deviceVersion": "OpenCL 1.2 AMD-APP (1411.4)"
     }, 
     "results": {
-      "2014-04-11T10:37:12+03:00": {
-        "date": "2014-04-11T10:37:12+03:00", 
+      "2014-06-05T01:34:03+03:00": {
+        "date": "2014-06-05T01:34:03+03:00", 
         "tests": [
           {
             "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
@@ -672,13 +788,13 @@
           }, 
           {
             "test": "kernel/constant_struct_has_pointer_to_self.cl", 
-            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4366402263448290745 < tests/kernel/constant_struct_has_pointer_to_self.cl\n--\nExit Code: 134\n\nCommand Output (stderr):\n--\n/tmp/poclvJrWzo//program.cl:8:40: warning: incompatible pointer types initializing '__constant int *' with an expression of type '__constant int *__constant *'\nconstant ConstantPool constants = { 1, &constants.firstPtr };\n                                       ^~~~~~~~~~~~~~~~~~~\nBitcasts between pointers of different address spaces is not legal.Use AddrSpaceCast instead.\ni32 addrspace(3)* bitcast (i8* getelementptr (i8* bitcast (%struct.ConstantPool addrspace(3)* @constants to i8*), i64 8) to i32 addrspace(3)*)\nBroken module found, compilation aborted!\nrun_scripts/device_4366402263448290745/kernel/Output/constant_struct_has_pointer_to_self.cl.script: line 1:  1095 Aborted                 (core dumped) tools/ocl-tester/ocl-tester compile --device 4366402263448290745 < tests/kernel/constant_struct_has_pointer_to_self.cl\n\n--\n\n", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 7941580658608682444 < \"tests/kernel/constant_struct_has_pointer_to_self.cl\"\n--\nExit Code: -11\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"7941580658608682444\"\nCommand 0 Result: -11\nCommand 0 Output:\n\n\nCommand 0 Stderr:\n\n\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
             "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
-            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4366402263448290745 < tests/kernel/nested_struct_with_local_memory_pointers.cl\n--\nExit Code: 134\n\nCommand Output (stderr):\n--\nBitcasts between pointers of different address spaces is not legal.Use AddrSpaceCast instead.\ni32 addrspace(2)* bitcast (i8* getelementptr (i8* bitcast (i32 addrspace(2)* @nested_struct_with_local_memory_pointers.limits to i8*), i64 4) to i32 addrspace(2)*)\nBroken module found, compilation aborted!\nrun_scripts/device_4366402263448290745/kernel/Output/nested_struct_with_local_memory_pointers.cl.script: line 1:  1098 Aborted                 (core dumped) tools/ocl-tester/ocl-tester compile --device 4366402263448290745 < tests/kernel/nested_struct_with_local_memory_pointers.cl\n\n--\n\n", 
-            "result": "FAIL"
+            "output": "N/A", 
+            "result": "PASS"
           }, 
           {
             "test": "kernel/test_suite_usage_example.cl", 
@@ -687,8 +803,124 @@
           }, 
           {
             "test": "kernel/use_local_address_in_inline_function.cl", 
-            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4366402263448290745 < tests/kernel/use_local_address_in_inline_function.cl\n--\nExit Code: 134\n\nCommand Output (stderr):\n--\n/tmp/pocl26Ub94//program.cl:10:12: warning: expression result unused\n    addr ? 0 : 1;\n           ^\nBitcasts between pointers of different address spaces is not legal.Use AddrSpaceCast instead.\ni32 addrspace(2)* bitcast (i8* getelementptr (i8* bitcast ([1 x i32] addrspace(2)* @local_address_in_inline_function.range to i8*), i64 4) to i32 addrspace(2)*)\nBroken module found, compilation aborted!\nrun_scripts/device_4366402263448290745/kernel/Output/use_local_address_in_inline_function.cl.script: line 1:  1102 Aborted                 (core dumped) tools/ocl-tester/ocl-tester compile --device 4366402263448290745 < tests/kernel/use_local_address_in_inline_function.cl\n\n--\n\n", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_value_to_local_memory_variable.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }
+        ]
+      }
+    }
+  }, 
+  "7058415904465753581": {
+    "deviceInfo": {
+      "deviceName": "Intel(R) Core(TM) i5-3550 CPU @ 3.30GHz", 
+      "uuid": 7058415904465753581, 
+      "driverVersion": "1411.4 (sse2,avx)", 
+      "platformVersion": "OpenCL 1.2 AMD-APP (1411.4)", 
+      "platformName": "AMD Accelerated Parallel Processing", 
+      "openCLCVersion": "OpenCL C 1.2", 
+      "deviceVersion": "OpenCL 1.2 AMD-APP (1411.4)"
+    }, 
+    "results": {
+      "2014-06-05T01:34:03+03:00": {
+        "date": "2014-06-05T01:34:03+03:00", 
+        "tests": [
+          {
+            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 624971432486978212 < \"tests/kernel/constant_struct_has_pointer_to_self.cl\"\n--\nExit Code: -11\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"624971432486978212\"\nCommand 0 Result: -11\nCommand 0 Output:\n\n\nCommand 0 Stderr:\n\n\n\n--\n\n", 
             "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/test_suite_usage_example.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/use_local_address_in_inline_function.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_value_to_local_memory_variable.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }
+        ]
+      }
+    }
+  }, 
+  "3875096223479713763": {
+    "deviceInfo": {
+      "deviceName": "Tahiti", 
+      "uuid": 3875096223479713763, 
+      "driverVersion": "1411.4 (VM)", 
+      "platformVersion": "OpenCL 1.2 AMD-APP (1411.4)", 
+      "platformName": "AMD Accelerated Parallel Processing", 
+      "openCLCVersion": "OpenCL C 1.2", 
+      "deviceVersion": "OpenCL 1.2 AMD-APP (1411.4)"
+    }, 
+    "results": {
+      "2014-06-05T01:34:03+03:00": {
+        "date": "2014-06-05T01:34:03+03:00", 
+        "tests": [
+          {
+            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 17596833350591306018 < \"tests/kernel/constant_struct_has_pointer_to_self.cl\"\n--\nExit Code: -11\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"17596833350591306018\"\nCommand 0 Result: -11\nCommand 0 Output:\n\n\nCommand 0 Stderr:\n\n\n\n--\n\n", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/test_suite_usage_example.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/use_local_address_in_inline_function.cl", 
+            "output": "N/A", 
+            "result": "PASS"
           }, 
           {
             "test": "kernel/write_value_to_local_memory_variable.cl", 
@@ -756,6 +988,122 @@
             "test": "kernel/write_value_to_local_memory_variable.cl", 
             "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 1646481365864493515 < tests/kernel/write_value_to_local_memory_variable.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nError: parse error.\n\n--\n\n", 
             "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }
+        ]
+      }
+    }
+  }, 
+  "3818427615088498742": {
+    "deviceInfo": {
+      "deviceName": "GeForce GTX 780 Ti", 
+      "uuid": 3818427615088498742, 
+      "driverVersion": "331.20", 
+      "platformVersion": "OpenCL 1.1 CUDA 6.0.1", 
+      "platformName": "NVIDIA CUDA", 
+      "openCLCVersion": "OpenCL C 1.1", 
+      "deviceVersion": "OpenCL 1.1 CUDA"
+    }, 
+    "results": {
+      "2014-06-05T01:31:48+03:00": {
+        "date": "2014-06-05T01:31:48+03:00", 
+        "tests": [
+          {
+            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 14099244486021067772 < \"tests/kernel/constant_struct_has_pointer_to_self.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"14099244486021067772\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\ntools/ocl-tester/ocl-tester: /usr/lib/libOpenCL.so.1: no version information available (required by tools/ocl-tester/ocl-tester)\nError: Failed to build program... reading build log...\n-------- Build log: --------\nptxas application ptx input, line 11; error   : Variable used as initial value not in .global or .const state space\nptxas application ptx input, line 11; error   : Label expected for forward reference of 'constants'\nptxas fatal   : Ptx assembly aborted due to errors\n\n\n\n--\n\n", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/test_suite_usage_example.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/use_local_address_in_inline_function.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_value_to_local_memory_variable.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }
+        ]
+      }
+    }
+  }, 
+  "2971114038524396273": {
+    "deviceInfo": {
+      "deviceName": "pthread-Intel(R) Core(TM) i7-3615QM CPU @ 2.30GHz", 
+      "uuid": 2971114038524396273, 
+      "driverVersion": "0.9", 
+      "platformVersion": "OpenCL 1.2 pocl 0.9", 
+      "platformName": "Portable Computing Language", 
+      "openCLCVersion": "OpenCL C 1.2", 
+      "deviceVersion": "OpenCL 1.2 pocl"
+    }, 
+    "results": {
+      "2014-04-11T10:37:12+03:00": {
+        "date": "2014-04-11T10:37:12+03:00", 
+        "tests": [
+          {
+            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4366402263448290745 < tests/kernel/constant_struct_has_pointer_to_self.cl\n--\nExit Code: 134\n\nCommand Output (stderr):\n--\n/tmp/poclvJrWzo//program.cl:8:40: warning: incompatible pointer types initializing '__constant int *' with an expression of type '__constant int *__constant *'\nconstant ConstantPool constants = { 1, &constants.firstPtr };\n                                       ^~~~~~~~~~~~~~~~~~~\nBitcasts between pointers of different address spaces is not legal.Use AddrSpaceCast instead.\ni32 addrspace(3)* bitcast (i8* getelementptr (i8* bitcast (%struct.ConstantPool addrspace(3)* @constants to i8*), i64 8) to i32 addrspace(3)*)\nBroken module found, compilation aborted!\nrun_scripts/device_4366402263448290745/kernel/Output/constant_struct_has_pointer_to_self.cl.script: line 1:  1095 Aborted                 (core dumped) tools/ocl-tester/ocl-tester compile --device 4366402263448290745 < tests/kernel/constant_struct_has_pointer_to_self.cl\n\n--\n\n", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4366402263448290745 < tests/kernel/nested_struct_with_local_memory_pointers.cl\n--\nExit Code: 134\n\nCommand Output (stderr):\n--\nBitcasts between pointers of different address spaces is not legal.Use AddrSpaceCast instead.\ni32 addrspace(2)* bitcast (i8* getelementptr (i8* bitcast (i32 addrspace(2)* @nested_struct_with_local_memory_pointers.limits to i8*), i64 4) to i32 addrspace(2)*)\nBroken module found, compilation aborted!\nrun_scripts/device_4366402263448290745/kernel/Output/nested_struct_with_local_memory_pointers.cl.script: line 1:  1098 Aborted                 (core dumped) tools/ocl-tester/ocl-tester compile --device 4366402263448290745 < tests/kernel/nested_struct_with_local_memory_pointers.cl\n\n--\n\n", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/test_suite_usage_example.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/use_local_address_in_inline_function.cl", 
+            "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 4366402263448290745 < tests/kernel/use_local_address_in_inline_function.cl\n--\nExit Code: 134\n\nCommand Output (stderr):\n--\n/tmp/pocl26Ub94//program.cl:10:12: warning: expression result unused\n    addr ? 0 : 1;\n           ^\nBitcasts between pointers of different address spaces is not legal.Use AddrSpaceCast instead.\ni32 addrspace(2)* bitcast (i8* getelementptr (i8* bitcast ([1 x i32] addrspace(2)* @local_address_in_inline_function.range to i8*), i64 4) to i32 addrspace(2)*)\nBroken module found, compilation aborted!\nrun_scripts/device_4366402263448290745/kernel/Output/use_local_address_in_inline_function.cl.script: line 1:  1102 Aborted                 (core dumped) tools/ocl-tester/ocl-tester compile --device 4366402263448290745 < tests/kernel/use_local_address_in_inline_function.cl\n\n--\n\n", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/write_value_to_local_memory_variable.cl", 
+            "output": "N/A", 
+            "result": "PASS"
           }, 
           {
             "test": "kernel/write_wg_size_to_local_memory_table.cl", 
