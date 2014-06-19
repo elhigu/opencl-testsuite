@@ -168,8 +168,6 @@ __constant uint _wcl_constant_null[_WCL_ADDRESS_SPACE_constant_MIN] = { 0 };
 
 // => General code that doesn't depend on input.
 
-#define _WCL_MEMCPY(dst, src) for(ulong i = 0; i < sizeof((src))/sizeof((src)[0]); i++) { (dst)[i] = (src)[i]; }
-
 #define _WCL_LAST(type, ptr) (((type)(ptr)) - 1)
 #define _WCL_FILLCHAR ((uchar)0xCC)
 
@@ -178,12 +176,7 @@ __constant uint _wcl_constant_null[_WCL_ADDRESS_SPACE_constant_MIN] = { 0 };
 typedef uint _WclInitType;
 
 // NOTE: this expects that null pointer is type of uint*
-#define _WCL_SET_NULL(type, req_bytes, min, max, null) ( ((((type)max)-((type)min))*sizeof(uint) >= req_bytes) ? ((type)min) : (null) )
-
-#ifdef cl_khr_initialize_memory
-#pragma OPENCL EXTENSION cl_khr_initialize_memory : enable
-#define _WCL_LOCAL_RANGE_INIT(begin, end)
-#else
+#define _WCL_SET_NULL(type, req_bytes, min, max, null) ( min )
 
 // be careful to edit this, this has been carefully tuned to work on every OpenCL driver
 // e.g. % item_count was added to start[(items_offset+i)] = _WCL_FILLCHAR;
@@ -210,22 +203,6 @@ typedef uint _WclInitType;
     }                                                                   \
 } while (0)                                                             \
 
-#endif // cl_khr_initialize_memory
-
-constant int hd4k_workaround_constant = 0;
-
-// <= General code that doesn't depend on input.
-
-bool _wcl_addr_check_global_1__u_uglobal__int__Ptr(__global int *addr, unsigned size, __global int * min0, __global int * max0)
-{
-      return 0
-        || ( ((addr) >= (min0)) && ((addr + size - 1) <= _WCL_LAST(__global int *, max0)) );
-}
-__global int *_wcl_addr_clamp_global_1__u_uglobal__int__Ptr(__global int *addr, unsigned size, __global int * min0, __global int * max0, __global int * asnull)
-{
-     return _wcl_addr_check_global_1__u_uglobal__int__Ptr(addr, size, min0, max0) ? addr : asnull;
-}
-
 bool _wcl_addr_check_local_1__u_ulocal__int__Ptr(__local int *addr, unsigned size, __local int * min0, __local int * max0)
 {
       return 0
@@ -236,24 +213,11 @@ __local int *_wcl_addr_clamp_local_1__u_ulocal__int__Ptr(__local int *addr, unsi
      return _wcl_addr_check_local_1__u_ulocal__int__Ptr(addr, size, min0, max0) ? addr : asnull;
 }
 
-bool _wcl_addr_check_constant_1__u_uconstant__int__Ptr(__constant int *addr, unsigned size, __constant int * min0, __constant int * max0)
-{
-      return 0
-        || ( ((addr) >= (min0)) && ((addr + size - 1) <= _WCL_LAST(__constant int *, max0)) );
-}
-__constant int *_wcl_addr_clamp_constant_1__u_uconstant__int__Ptr(__constant int *addr, unsigned size, __constant int * min0, __constant int * max0, __constant int * asnull)
-{
-     return _wcl_addr_check_constant_1__u_uconstant__int__Ptr(addr, size, min0, max0) ? addr : asnull;
-}
-
 __kernel void remove_variables(
-    // CHECK: __global int *result, ulong _wcl_result_size)
     __global int *result, ulong _wcl_result_size)
 {
 
     __local _WclLocals _wcl_locals;
-local int hd4k_workaround_local;
-hd4k_workaround_local = hd4k_workaround_constant;
     __local uint _wcl_local_null[_WCL_ADDRESS_SPACE_local_MIN];
 
     _WclProgramAllocations _wcl_allocations_allocation = {
