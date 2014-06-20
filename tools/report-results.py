@@ -88,8 +88,11 @@ def main(argv):
 		print >>sys.stderr,"Error: Could not send results to logging service."
 		print >>sys.stderr,"Please send it as email to mikael.lepisto@vincit.fi"
 		raise
-
-	print "Submitting results was success. It was sent to logging service, where it will be stored few days. If you like to comment about entry with following code you can refer the result:",hash_key
+	
+	print "Thank you! You are awesome!"
+	print "Result was sent to logging service, where it will be stored until I add it to official result page."
+	print "If you wish to comment about or to be added to result contributors list, send me a mail"
+	print "mikael.lepisto@vincit.fi with following code and your info:",hash_key
 
 if __name__ == "__main__":
 	main(sys.argv)
