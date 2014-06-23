@@ -75,14 +75,15 @@ def main(argv):
 	syslogHandler = logging.handlers.SysLogHandler(address=('logs.papertrailapp.com', 50438))
 	hash_key = os.urandom(16).encode('hex')
 	try:
-		packet_length = 8192
+		packet_length = 2048
 		message = json.dumps(filtered_results, sort_keys=True)
 		part_count = len(message)/packet_length + 1
-
 		for i in range(part_count):
 			start = i*packet_length
 			end = start+packet_length
 			syslogHandler.emit(logging.LogRecord("", logging.INFO, "", 0, "opencl-testsuite:" + hash_key + "-" + str(i) + ":" + message[start:end], {}, None))
+			syslogHandler.flush()
+
 
 	except:
 		print >>sys.stderr,"Error: Could not send results to logging service."
