@@ -253,13 +253,13 @@ std::string readAllInput()
 /**
  * Compile source code with given device.
  */
-bool compileSource(std::string const& source, cl_device_id const& deviceId, bool debug)
+bool compileSource(std::string const& source, cl_device_id const& deviceId, bool debug, std::stringstream &output)
 {
     cl_int ret = CL_SUCCESS;
 
     // Create an OpenCL context
     cl_context context = clCreateContext(NULL, 1, &deviceId, NULL, NULL, &ret);
-    if (debug) std::cerr << "Creating context.\n";
+    if (debug) output << "Creating context.\n";
     if (ret != CL_SUCCESS)
     {
         // TODO: add constant to string function to print error code...
@@ -269,14 +269,14 @@ bool compileSource(std::string const& source, cl_device_id const& deviceId, bool
 
     // Create the program
     const char *buf = source.c_str();
-    if (debug) std::cerr << "Creating program.\n";
+    if (debug) output << "Creating program.\n";
     cl_program program = clCreateProgramWithSource(context, 1, (const char **)&buf, NULL, &ret);
 
     // Build the program
-    if (debug) std::cerr << "Building program.\n";
+    if (debug) output << "Building program.\n";
     if (CL_SUCCESS != clBuildProgram(program, 1, &deviceId, NULL, NULL, NULL))
     {
-        std::cerr << "Error: Failed to build program... reading build log..." << std::endl;
+    	output << "Error: Failed to build program... reading build log..." << std::endl;
 
         size_t len = 0;
         clGetProgramBuildInfo(program, deviceId, CL_PROGRAM_BUILD_LOG, 0, NULL, &len);
@@ -285,7 +285,7 @@ bool compileSource(std::string const& source, cl_device_id const& deviceId, bool
 
         buildLog = std::string(buildLog.c_str());
 
-        std::cerr << "-------- Build log: --------" << std::endl << trim(buildLog) << std::endl;
+        output << "-------- Build log: --------" << std::endl << trim(buildLog) << std::endl;
 
         return false;
     }
@@ -293,7 +293,7 @@ bool compileSource(std::string const& source, cl_device_id const& deviceId, bool
     bool cleanupOk = true;
     cleanupOk &= CL_SUCCESS == clReleaseContext(context);
     if (!cleanupOk) {
-        std::cerr << "Error: Could not clean up context after build." << std::endl;
+    	output << "Error: Could not clean up context after build." << std::endl;
         return false;
     }
 
@@ -303,41 +303,45 @@ bool compileSource(std::string const& source, cl_device_id const& deviceId, bool
 /**
  * Writes JSON to stdout printing device information.
  */
-bool printDeviceInfo() {
-    device_map devices = getAllDeviceInfos();
-    std::cout << "{\"deviceIdentifiers\":[" << std::endl;
+std::string printDeviceInfo(void) {
+	std::stringstream devInfo;
+
+	device_map devices = getAllDeviceInfos();
+	devInfo << "{\"deviceIdentifiers\":[" << std::endl;
 
     for (device_map::const_iterator iter = devices.begin(); iter != devices.end(); iter++) {
         const DeviceInfo &dInfo = iter->second;
-        std::cout << getDeviceString(dInfo);
+        devInfo << getDeviceString(dInfo);
         if ( peek_next(iter) !=  devices.end() ) {
-            std::cout << ",";
+        	devInfo << ",";
         }
-        std::cout << std::endl;
+        devInfo << std::endl;
     }
-    std::cout << "]}" << std::endl;
+    devInfo << "]}" << std::endl;
 
-    return true;
+    return devInfo.str();
 }
 
-bool compileWithDevice(std::string selectedDevice, bool debug) {
-    if (debug) std::cerr << "Reading stdin:" << std::endl;
-    std::string source = readAllInput();
-    if (debug) std::cerr << source << std::endl;
+std::pair<bool, std::string> compileWithDevice(std::string selectedDevice, bool debug) {
+	std::stringstream output;
 
-    if (debug) std::cerr << "Fetch all devices..." << std::endl;
+    if (debug) output << "Reading stdin:" << std::endl;
+    std::string source = readAllInput();
+    if (debug) output << source << std::endl;
+
+    if (debug) output << "Fetch all devices..." << std::endl;
     device_map devices = getAllDeviceInfos();
 
     // find correct device by id
-    if (debug) std::cerr << "Finding correct device to compile..." << std::endl;
+    if (debug) output << "Finding correct device to compile..." << std::endl;
     for (device_map::const_iterator iter = devices.begin(); iter != devices.end(); iter++) {
         if (to_string(iter->second.deviceHash) == selectedDevice) {
-            if (debug) std::cerr << "Found: " << getDeviceString(iter->second) << std::endl;
-            return compileSource(source, iter->second.dId, debug);
+            if (debug) output << "Found: " << getDeviceString(iter->second) << std::endl;
+            return std::pair<bool, std::string>(compileSource(source, iter->second.dId, debug, output), output.str());
         }
     }
 
-    std::cerr << "Error: Could not find device." << std::endl;
+    output << "Error: Could not find device." << std::endl;
     return false;
 }
 
@@ -346,84 +350,4 @@ bool runWithDevice(std::string selectedDevice) {
     return false;
 }
 
-#if 0
-////////////////////////////////////////////////////////////////////////////
-//
-// Parse commandline arguments and main
-//
 
-// Options structure, this shuld be populated by cmd parser
-// and used in main() where commands are interpreted
-struct {
-    std::string command;
-    std::string device;
-    bool debug;
-} Options = { "none", "none", false };
-
-std::string argv0 = "ocl-tester";
-bool fail(std::string reason) {
-    std::cerr << reason << std::endl;
-    std::cerr << "Usage: " << argv0 << " <command> [OPTIONS] [< kernelcode.cl]" << std::endl << std::endl;
-    std::cerr << argv0 << " list-devices" << std::endl;
-    std::cerr << argv0 << " compile --device 16918272 < kernel.cl" << std::endl;
-    std::cerr << argv0 << " run-kernel --device 16918272 < kernel.cl" << std::endl << std::endl;
-    std::cerr << "Available options:" << std::endl;
-    std::cerr << "--debug                  Print debug information." << std::endl;
-    std::cerr << "--device <device_id>     OpenCL device id which will be used to compile test case." << std::endl
-              << "                         Ids are returned with list-devices command" << std::endl << std::endl;
-    return false;
-}
-
-int parseCommandLine(int argc, char const* argv[]) {
-
-    std::string deviceFlag = "--device";
-    std::string debugFlag = "--debug";
-
-    if (argc > 1) {
-        Options.command = argv[1];
-    }
-
-    for (int i = 2; i < argc; ++i) {
-        std::string current(argv[i]);
-
-        // if device is given
-        if (deviceFlag.compare(current) == 0 && i+1 < argc) {
-            Options.device = std::string(argv[i+1]); i++;
-        } else if (debugFlag.compare(current) == 0) {
-            Options.debug = true;
-        }
-    }
-
-    if (Options.command.compare("none") == 0) {
-        return fail("Invalid Arguments: Command missing.");
-    }
-
-    return true;
-}
-
-int main(int argc, char const* argv[])
-{
-    if (!parseCommandLine(argc, argv)) {
-        return EXIT_FAILURE;
-    }
-
-    bool success = true;
-    if (Options.command.compare("list-devices") == 0) {
-        success = printDeviceInfo();
-    } else if (Options.command.compare("compile") == 0) {
-        success = compileWithDevice(Options.device, Options.debug);
-    } else if (Options.command.compare("run-kernel") == 0) {
-        success = runWithDevice(Options.device);
-    } else {
-        fail("Invalid Arguments: Unknown command: " + Options.command);
-        return EXIT_FAILURE;
-    }
-
-    if (success) {
-        return EXIT_SUCCESS;
-    } else {
-        return EXIT_FAILURE;
-    }
-}
-
-#endif // if 0
