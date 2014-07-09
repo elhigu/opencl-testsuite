@@ -14,6 +14,12 @@ public class MainActivity extends Activity
         setContentView(R.layout.main);
         TextView t=(TextView)findViewById(R.id.MainTextContent); 
         t.setText(getDeviceInfo());
+        t.append(compileWithDevice("1050148873", 
+        		"kernel void zero_one_or_other(void) {" +
+//        		"	local uint local_1[1];" +
+//        		"	local uint local_2[1];" +
+//        		"	*(local_1 > local_2 ? local_1 : local_2) = 0;" +
+        		"}"));
     }
 
     static
@@ -22,4 +28,5 @@ public class MainActivity extends Activity
     }
 
     private native String getDeviceInfo();
+    private native String compileWithDevice(String device, String oclSource);
 }

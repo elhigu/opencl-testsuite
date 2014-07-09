@@ -322,13 +322,10 @@ std::string getDeviceInfo(void) {
     return devInfo.str();
 }
 
-std::pair<bool, std::string> compileWithDevice(std::string selectedDevice, bool debug) {
+std::pair<bool, std::string> compileWithDevice(
+		std::string selectedDevice, std::string source, bool debug) {
+
 	std::stringstream output;
-
-    if (debug) output << "Reading stdin:" << std::endl;
-    std::string source = readAllInput();
-    if (debug) output << source << std::endl;
-
     if (debug) output << "Fetch all devices..." << std::endl;
     device_map devices = getAllDeviceInfos();
 

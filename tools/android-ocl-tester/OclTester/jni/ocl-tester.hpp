@@ -10,5 +10,6 @@ std::string getDeviceInfo(void);
  *
  * @return pair(status, output)
  */
-std::pair<int, std::string> compileWithDevice(std::string device, std::string program, bool debug);
+std::pair<bool, std::string> compileWithDevice(
+		std::string device, std::string program, bool debug);
 

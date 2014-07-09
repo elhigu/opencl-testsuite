@@ -99,3 +99,24 @@ extern "C" jstring Java_com_lepisto_mikael_ocltester_MainActivity_getDeviceInfo
 {
 	return env->NewStringUTF(getDeviceInfo().c_str());
 }
+
+
+/**
+ * To keep JNI maddness minimal, return status and output as one encoded string
+ * e.g. true:output
+ */
+extern "C" jstring Java_com_lepisto_mikael_ocltester_MainActivity_compileWithDevice
+(
+    JNIEnv* env,
+    jobject thisObject,
+    jstring deviceStr,
+    jstring sourceCode
+)
+{
+	std::string device(env->GetStringUTFChars(deviceStr, 0));
+	std::string source(env->GetStringUTFChars(sourceCode, 0));
+	std::pair<bool, std::string> retVal = compileWithDevice(device, source, false);
+	std::string retStatus = retVal.first ? "true" : "false";
+	return env->NewStringUTF((retStatus + ":" + retVal.second).c_str());
+}
+
