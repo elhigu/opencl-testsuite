@@ -91,3 +91,11 @@ extern "C" void Java_com_intel_sample_androidbasicocl_MainActivity_shutdownOpenC
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
 #define  LOGE(...)  __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 
+extern "C" jstring Java_com_lepisto_mikael_ocltester_MainActivity_getDeviceInfo
+(
+    JNIEnv* env,
+    jobject thisObject
+)
+{
+	return env->NewStringUTF(getDeviceInfo().c_str());
+}

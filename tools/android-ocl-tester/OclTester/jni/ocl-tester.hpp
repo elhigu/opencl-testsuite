@@ -3,7 +3,7 @@
 /**
  * Outputs device info JSON.
  */
-std::string printDeviceInfo(void);
+std::string getDeviceInfo(void);
 
 /**
  * Compile kernel with given device.

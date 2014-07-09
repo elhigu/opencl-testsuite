@@ -303,7 +303,7 @@ bool compileSource(std::string const& source, cl_device_id const& deviceId, bool
 /**
  * Writes JSON to stdout printing device information.
  */
-std::string printDeviceInfo(void) {
+std::string getDeviceInfo(void) {
 	std::stringstream devInfo;
 
 	device_map devices = getAllDeviceInfos();
@@ -342,7 +342,7 @@ std::pair<bool, std::string> compileWithDevice(std::string selectedDevice, bool 
     }
 
     output << "Error: Could not find device." << std::endl;
-    return false;
+    return std::pair<bool, std::string>(false, output.str());
 }
 
 bool runWithDevice(std::string selectedDevice) {

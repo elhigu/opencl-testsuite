@@ -2,6 +2,7 @@ package com.lepisto.mikael.ocltester;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.TextView;
 
 public class MainActivity extends Activity
 {
@@ -11,5 +12,14 @@ public class MainActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        TextView t=(TextView)findViewById(R.id.MainTextContent); 
+        t.setText(getDeviceInfo());
     }
+
+    static
+    {
+        System.loadLibrary("ocl-tester");
+    }
+
+    private native String getDeviceInfo();
 }
