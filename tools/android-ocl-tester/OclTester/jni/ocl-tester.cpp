@@ -334,7 +334,8 @@ std::pair<bool, std::string> compileWithDevice(
     for (device_map::const_iterator iter = devices.begin(); iter != devices.end(); iter++) {
         if (to_string(iter->second.deviceHash) == selectedDevice) {
             if (debug) output << "Found: " << getDeviceString(iter->second) << std::endl;
-            return std::pair<bool, std::string>(compileSource(source, iter->second.dId, debug, output), output.str());
+            bool status = compileSource(source, iter->second.dId, debug, output);
+            return std::pair<bool, std::string>(status, output.str());
         }
     }
 
