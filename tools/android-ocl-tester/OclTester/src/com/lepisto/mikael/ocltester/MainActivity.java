@@ -1,6 +1,7 @@
 package com.lepisto.mikael.ocltester;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.InetAddress;
@@ -9,6 +10,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.Enumeration;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -80,7 +84,6 @@ public class MainActivity extends Activity
             try {
                 serverSocket.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -90,94 +93,92 @@ public class MainActivity extends Activity
         TextView t=(TextView)findViewById(R.id.MainTextContent);
         t.append(msg);
     }
-    
-    private class SocketServerThread extends Thread {
-        private String message = "";
 
-        int count = 0;
+    /**
+     * Listen new connections to execute commands with OclTester.
+     */
+    private class SocketServerThread extends Thread {
         @Override
         public void run() {
-
             try {
                 serverSocket = new ServerSocket(SocketServerPORT);
+                while (true) {
+                    Socket socket = serverSocket.accept();
+                    SocketServerReplyThread socketServerReplyThread = 
+                            new SocketServerReplyThread(socket);
+                    socketServerReplyThread.run();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        appendText("I'm waiting here: " + serverSocket.getLocalPort());
+                        appendText("There was error creating response socket...\n");
                     }
                 });
-
-                while (true) {
-                    Socket socket = serverSocket.accept();
-                    count++;
-                    message += "#" + count + " from " + socket.getInetAddress()
-                            + ":" + socket.getPort() + "\n";
-
-                    MainActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            appendText(message);
-                            message = "";
-                        }
-                    });
-
-                    SocketServerReplyThread socketServerReplyThread = 
-                            new SocketServerReplyThread(socket, count);
-                    socketServerReplyThread.run();
-
-                }
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
             }
         }
-
     }
 
+    /**
+     * Read input of connection, execute OclTester things and send response.
+     */
     private class SocketServerReplyThread extends Thread {
-        private String message = "";
-
         private Socket hostThreadSocket;
-        int cnt;
-
-        SocketServerReplyThread(Socket socket, int c) {
+        
+        SocketServerReplyThread(Socket socket) {
             hostThreadSocket = socket;
-            cnt = c;
         }
 
         @Override
         public void run() {
             OutputStream outputStream;
-            String msgReply = "Hello from Android, you are #" + cnt;
+            InputStream inputStream;
 
             try {
+                inputStream = hostThreadSocket.getInputStream();
+                // one million bytes of code max limit for now.
+                byte[] buffer = new byte[1000000];
+                inputStream.read(buffer);
+                
+                JSONObject retVal = new JSONObject();
+                
+                try {
+                    OclTester oclTester = new OclTester();
+                    JSONObject json = new JSONObject(new String(buffer, "UTF-8"));
+                    String command = json.getString("command");
+                    if (command.equals("info")) {
+                        retVal.put("status", true);
+                        retVal.put("output", oclTester.getDeviceInfo());
+                    } else {
+                        retVal.put("status", false);
+                        retVal.put("output", "Unknown command: " + command + "}");
+                    }
+                } catch (JSONException e) {
+                    try {
+                        retVal.put("status", false);
+                        retVal.put("output", "Could not parse command.");
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    }
+                    e.printStackTrace();
+                }
+                
                 outputStream = hostThreadSocket.getOutputStream();
                 PrintStream printStream = new PrintStream(outputStream);
-                printStream.print(msgReply);
+                printStream.print(retVal.toString());
                 printStream.close();
 
-                message += "replayed: " + msgReply + "\n";
+            } catch (IOException e) {
+                e.printStackTrace();
 
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        appendText(message);
-                        message = "";
+                        appendText("There was error when executing command...\n");
                     }
                 });
-
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                message += "Something wrong! " + e.toString() + "\n";
             }
-
-            MainActivity.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    appendText(message);
-                }
-            });
         }
     }
 
@@ -196,9 +197,8 @@ public class MainActivity extends Activity
                 }
             }
         } catch (SocketException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
-            ip += "Something Wrong! " + e.toString() + "\n";
+            ip += "Getting IP failed: " + e.toString() + "\n";
         }
         return ip;
     }
