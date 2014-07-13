@@ -25,6 +25,14 @@ import android.widget.TextView;
  * telnet localhost 5556
  * redir add tcp:41233:41233
  *
+ * To test commands with netcat
+ * 
+ * echo '{ "command" : "info" }' | nc localhost 41233
+ * echo '{ "command" : "compile", "device" : "1050148873", "code" : "kernel void test(void) {}" }' | nc localhost 41233
+ * echo '{ "command" : "compile", "device" : "1050148873", "code" : "kernel void test(void) { Syntax Error. }" }' | nc localhost 41233
+ * 
+ * This test actually crashes on the JNI side (should still report error)
+ * echo '{ "command" : "compile", "device" : "1050148873", "code" : "kernel void zero_one_or_other(void) {local uint local_1[1];local uint local_2[1];*(local_1 > local_2 ? local_1 : local_2) = 0;}" }' | nc localhost 41233
  */
 public class MainActivity extends Activity
 {
@@ -48,14 +56,14 @@ public class MainActivity extends Activity
         t.append("\n");
 
         // valid
-        t.append(oclTester.compileWithDevice("1050148873", 
+        t.append("Compile test #1: " + oclTester.compileWithDevice("1050148873", 
                 "kernel void zero_one_or_other(void) {" +
                 "}"));
 
         t.append("\n\n");
 
         // syntax error
-        t.append(oclTester.compileWithDevice("1050148873", 
+        t.append("Compile test #2: " +oclTester.compileWithDevice("1050148873", 
                 "kernel void zero_one_or_other(void) {" +
                         "	I'm Syntax Error." +
                 "}"));
@@ -71,7 +79,6 @@ public class MainActivity extends Activity
         		"	*(local_1 > local_2 ? local_1 : local_2) = 0;" +
         		"}"));
          */
-
         Thread socketServerThread = new Thread(new SocketServerThread());
         socketServerThread.start();
     }
@@ -125,6 +132,7 @@ public class MainActivity extends Activity
      */
     private class SocketServerReplyThread extends Thread {
         private Socket hostThreadSocket;
+        private String tempMessage = "";
         
         SocketServerReplyThread(Socket socket) {
             hostThreadSocket = socket;
@@ -145,40 +153,66 @@ public class MainActivity extends Activity
                 
                 try {
                     OclTester oclTester = new OclTester();
-                    JSONObject json = new JSONObject(new String(buffer, "UTF-8"));
+                    String commandStr = new String(buffer, "UTF-8");
+                    log("Got command: " + commandStr + "\n");
+                    
+                    JSONObject json = new JSONObject(commandStr);
                     String command = json.getString("command");
+
                     if (command.equals("info")) {
                         retVal.put("status", true);
                         retVal.put("output", oclTester.getDeviceInfo());
+                    
+                    } else if (command.equals("compile")) {
+                        String device = json.getString("device");
+                        String code = json.getString("code");
+
+                        log("Starting to compile: " + device + ":" + code + "\n");
+                        String compileStatus = oclTester.compileWithDevice(device, code);
+                        log("Return: " + compileStatus + "\n");
+
+                        int separator = compileStatus.indexOf(':');
+                        boolean status = Boolean.parseBoolean(compileStatus.substring(0, separator));
+                        String output = compileStatus.substring(separator+1);
+                        log("Returning:" + status + " output:" + output + "\n");
+
+                        retVal.put("status", status);
+                        retVal.put("output", output);
+
                     } else {
                         retVal.put("status", false);
-                        retVal.put("output", "Unknown command: " + command + "}");
+                        retVal.put("output", "Unknown command: " + command);
                     }
                 } catch (JSONException e) {
+                    e.printStackTrace();
                     try {
                         retVal.put("status", false);
-                        retVal.put("output", "Could not parse command.");
+                        retVal.put("output", "Could not parse command or arguments.");
                     } catch (JSONException e1) {
                         e1.printStackTrace();
                     }
-                    e.printStackTrace();
                 }
-                
+
                 outputStream = hostThreadSocket.getOutputStream();
                 PrintStream printStream = new PrintStream(outputStream);
-                printStream.print(retVal.toString());
+                printStream.print(retVal.toString() + "\n");
                 printStream.close();
 
             } catch (IOException e) {
                 e.printStackTrace();
-
-                MainActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        appendText("There was error when executing command...\n");
-                    }
-                });
+                log("There was error when executing command...\n");
             }
+        }
+
+        private void log(String msg) {
+            tempMessage = msg;
+            MainActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    appendText(tempMessage);
+                    tempMessage = "";
+                }
+            });            
         }
     }
 
