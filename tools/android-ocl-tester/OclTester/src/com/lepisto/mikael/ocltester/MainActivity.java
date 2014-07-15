@@ -15,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
@@ -44,8 +45,8 @@ public class MainActivity extends Activity
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        OclTester oclTester = new OclTester();
         super.onCreate(savedInstanceState);
+        OclTester oclTester = new OclTester();
         setContentView(R.layout.main);
         TextView t=(TextView)findViewById(R.id.MainTextContent);
         t.setMovementMethod(new ScrollingMovementMethod());
@@ -95,7 +96,7 @@ public class MainActivity extends Activity
             }
         }
     }
-
+    
     private void appendText(String msg) {
         TextView t=(TextView)findViewById(R.id.MainTextContent);
         t.append(msg);
@@ -108,6 +109,7 @@ public class MainActivity extends Activity
         @Override
         public void run() {
             try {
+                
                 serverSocket = new ServerSocket(SocketServerPORT);
                 while (true) {
                     Socket socket = serverSocket.accept();
