@@ -44,25 +44,6 @@ public class OclTesterActivity extends Activity
     ServerSocket serverSocket;
     OclCallServiceClient oclClient;
     
-    //
-    // MESSAGE PROCESSOR FOR OclCallServiceClient
-    //
-    @SuppressLint("HandlerLeak")
-    class IncomingHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-
-            if (msg.what == OclCallService.MSG_TYPE_RESULT) {
-                Bundle msgData = msg.getData();
-                String response = msgData.getString(OclCallService.MSG_KEY_RESPONSE);
-                appendText("Got response from service: " + msg.toString() + " Response: '" + response + "'");
-            } else {
-                Bundle msgData = msg.getData();
-                appendText("Got error or something from service: " + msg.toString() + " Response: " + msgData.toString());
-            }
-        }
-    }
-    final Messenger messageReceiver = new Messenger(new IncomingHandler());
 
     //
     // Main Activity
@@ -71,7 +52,7 @@ public class OclTesterActivity extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        oclClient = new OclCallServiceClient(this, messageReceiver);
+        oclClient = new OclCallServiceClient(this);
 
         setContentView(R.layout.main);
         TextView t=(TextView)findViewById(R.id.MainTextContent);
@@ -198,15 +179,14 @@ public class OclTesterActivity extends Activity
 
                     if (command.equals("info")) {
                         retVal.put("status", true);
-                        retVal.put("output", oclTester.getDeviceInfo());
+                        retVal.put("output", oclClient.getDeviceInfo());
                     
                     } else if (command.equals("compile")) {
                         String device = json.getString("device");
                         String code = json.getString("code");
 
                         log("Starting to compile: " + device + ":" + code + "\n");
-                        
-                        
+ 
                         String compileStatus = oclTester.compileWithDevice(device, code);
 
                         log("Return: " + compileStatus + "\n");
@@ -235,7 +215,10 @@ public class OclTesterActivity extends Activity
 
                 outputStream = hostThreadSocket.getOutputStream();
                 PrintStream printStream = new PrintStream(outputStream);
-                printStream.print(retVal.toString() + "\n");
+                String retStr = retVal.toString() + "\n";
+                log("Returning: " + retStr);
+
+                printStream.print(retStr);
                 printStream.close();
 
             } catch (IOException e) {
