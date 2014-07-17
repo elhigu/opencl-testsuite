@@ -16,7 +16,6 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -39,7 +38,7 @@ import android.widget.TextView;
  * This test actually crashes on the JNI side (should still report error)
  * echo '{ "command" : "compile", "device" : "1050148873", "code" : "kernel void zero_one_or_other(void) {local uint local_1[1];local uint local_2[1];*(local_1 > local_2 ? local_1 : local_2) = 0;}" }' | nc localhost 41233
  */
-public class MainActivity extends Activity
+public class OclTesterActivity extends Activity
 {
     static final int SocketServerPORT = 41233;
     ServerSocket serverSocket;
@@ -155,7 +154,7 @@ public class MainActivity extends Activity
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                MainActivity.this.runOnUiThread(new Runnable() {
+                OclTesterActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         appendText("There was error creating response socket...\n");
@@ -175,12 +174,12 @@ public class MainActivity extends Activity
         SocketServerReplyThread(Socket socket) {
             hostThreadSocket = socket;
         }
-
+        
         @Override
         public void run() {
             OutputStream outputStream;
             InputStream inputStream;
-
+            
             try {
                 inputStream = hostThreadSocket.getInputStream();
                 // one million bytes of code max limit for now.
@@ -206,7 +205,10 @@ public class MainActivity extends Activity
                         String code = json.getString("code");
 
                         log("Starting to compile: " + device + ":" + code + "\n");
+                        
+                        
                         String compileStatus = oclTester.compileWithDevice(device, code);
+
                         log("Return: " + compileStatus + "\n");
 
                         int separator = compileStatus.indexOf(':');
@@ -247,7 +249,7 @@ public class MainActivity extends Activity
          */
         private void log(String msg) {
             tempMessage = msg;
-            MainActivity.this.runOnUiThread(new Runnable() {
+            OclTesterActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     appendText(tempMessage);
