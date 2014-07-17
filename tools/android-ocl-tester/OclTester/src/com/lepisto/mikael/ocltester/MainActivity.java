@@ -14,9 +14,13 @@ import java.util.Enumeration;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Messenger;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
 
@@ -38,21 +42,51 @@ import android.widget.TextView;
 public class MainActivity extends Activity
 {
     static final int SocketServerPORT = 41233;
-
     ServerSocket serverSocket;
+    OclCallServiceClient oclClient;
     
-    /** Called when the activity is first created. */
+    //
+    // MESSAGE PROCESSOR FOR OclCallServiceClient
+    //
+    @SuppressLint("HandlerLeak")
+    class IncomingHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+
+            if (msg.what == OclCallService.MSG_TYPE_RESULT) {
+                Bundle msgData = msg.getData();
+                String response = msgData.getString(OclCallService.MSG_KEY_RESPONSE);
+                appendText("Got response from service: " + msg.toString() + " Response: '" + response + "'");
+            } else {
+                Bundle msgData = msg.getData();
+                appendText("Got error or something from service: " + msg.toString() + " Response: " + msgData.toString());
+            }
+        }
+    }
+    final Messenger messageReceiver = new Messenger(new IncomingHandler());
+
+    //
+    // Main Activity
+    //
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        OclTester oclTester = new OclTester();
+        oclClient = new OclCallServiceClient(this, messageReceiver);
+
         setContentView(R.layout.main);
         TextView t=(TextView)findViewById(R.id.MainTextContent);
         t.setMovementMethod(new ScrollingMovementMethod());
-        
+
         t.setText("Listening:" + getIpAddress().trim() + ":" + SocketServerPORT + "\n");
+
+        oclClient.doBindService();
+
+        // Start listening only after service if bound
+        Thread socketServerThread = new Thread(new SocketServerThread());
+        socketServerThread.start();
         
+/*
         t.append(oclTester.getDeviceInfo());
         t.append("\n");
 
@@ -72,21 +106,19 @@ public class MainActivity extends Activity
         t.append("\n\n\n");
 
         // compiler fail with intel... silent fail of JNI...
-        /*
         t.append(oclTester.compileWithDevice("1050148873", 
         		"kernel void zero_one_or_other(void) {" +
         		"	local uint local_1[1];" +
         		"	local uint local_2[1];" +
         		"	*(local_1 > local_2 ? local_1 : local_2) = 0;" +
         		"}"));
-         */
-        Thread socketServerThread = new Thread(new SocketServerThread());
-        socketServerThread.start();
+*/
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        oclClient.doUnbindService();
 
         if (serverSocket != null) {
             try {
@@ -101,6 +133,10 @@ public class MainActivity extends Activity
         TextView t=(TextView)findViewById(R.id.MainTextContent);
         t.append(msg);
     }
+
+    //
+    // SOCKET COMMUNICATION START HERE....
+    //
 
     /**
      * Listen new connections to execute commands with OclTester.
@@ -206,6 +242,9 @@ public class MainActivity extends Activity
             }
         }
 
+        /**
+         * Show text in Android device main window
+         */
         private void log(String msg) {
             tempMessage = msg;
             MainActivity.this.runOnUiThread(new Runnable() {
