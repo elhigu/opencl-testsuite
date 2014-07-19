@@ -75,13 +75,18 @@ public class OclCallServiceClient {
     }
 
     /**
-     * Disconnect client from service
+     * Disconnect client from service.
+     * 
+     * Would be nice to call this from activity onDestroy()
      */
     public void release() {
         Log.i(LOGTAG, "Unbinding OclCallService...");
         doUnbindService();
     }
     
+    /**
+     * TODO: Refactor code with compileWithDevice...
+     */
     public String getDeviceInfo() {
         // TODO: make sure that oclClient is not called from main thread of program
         //       which does event handling (wait will block handling and we are screwed).. 

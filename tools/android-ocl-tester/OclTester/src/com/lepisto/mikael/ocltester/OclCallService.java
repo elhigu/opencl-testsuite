@@ -42,6 +42,7 @@ public class OclCallService extends Service {
 
         @Override
         public void handleMessage(Message msg) {
+            Log.i(LOGTAG, "Got a message: " + msg.toString());
 
             if (msg.what != MSG_TYPE_COMMAND) {
                 super.handleMessage(msg);
@@ -85,7 +86,17 @@ public class OclCallService extends Service {
         }
     }
 
-
+    public void onCreate() {
+        // Wait a bit to be ready to get all debug messages  
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        Log.i(LOGTAG, "Service was started.");
+    }
+    
     /**
      * Return communication channel for activity.
      */

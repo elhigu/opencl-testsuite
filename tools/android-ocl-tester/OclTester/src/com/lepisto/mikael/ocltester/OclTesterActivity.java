@@ -179,7 +179,7 @@ public class OclTesterActivity extends Activity
                "\n\n"
             );
 
-            OclTesterActivity.this.log("DevInfo again after crash on intel:\n" + oclClient.getDeviceInfo() + "\n\n");
+            OclTesterActivity.this.log("Test getting devinfo again, should work even after driver crash:\n" + oclClient.getDeviceInfo() + "\n\n");            
         }
     }
 
@@ -187,8 +187,8 @@ public class OclTesterActivity extends Activity
      * Read input of connection, execute OclTester things and send response.
      */
     private class SocketServerReplyThread extends Thread {
+        final private String LOGTAG = "SocketServerReplyThread";
         private Socket hostThreadSocket;
-        private String tempMessage = "";
         
         SocketServerReplyThread(Socket socket) {
             hostThreadSocket = socket;
@@ -199,6 +199,8 @@ public class OclTesterActivity extends Activity
             OutputStream outputStream;
             InputStream inputStream;
             
+            Log.i(LOGTAG, "Started new thread to serve TCP connection.");
+            
             try {
                 inputStream = hostThreadSocket.getInputStream();
                 // one million bytes of code max limit for now.
@@ -208,7 +210,6 @@ public class OclTesterActivity extends Activity
                 JSONObject retVal = new JSONObject();
                 
                 try {
-                    OclTester oclTester = new OclTester();
                     String commandStr = new String(buffer, "UTF-8");
                     OclTesterActivity.this.log("Got command: " + commandStr + "\n");
                     
@@ -223,17 +224,15 @@ public class OclTesterActivity extends Activity
                         String device = json.getString("device");
                         String code = json.getString("code");
 
-                        OclTesterActivity.this.log("Starting to compile: " + device + ":" + code + "\n");
- 
-                        String compileStatus = oclTester.compileWithDevice(device, code);
-
-                        OclTesterActivity.this.log("Return: " + compileStatus + "\n");
+                        Log.i(LOGTAG,"Starting to compile: " + device + ":" + code + "\n");
+                        String compileStatus = oclClient.compileWithDevice(device, code);
+                        Log.i(LOGTAG, "Return: " + compileStatus + "\n");
 
                         int separator = compileStatus.indexOf(':');
                         boolean status = Boolean.parseBoolean(compileStatus.substring(0, separator));
                         String output = compileStatus.substring(separator+1);
-                        OclTesterActivity.this.log("Returning:" + status + " output:" + output + "\n");
-
+                        
+                        Log.i(LOGTAG, "Parsed status:" + status + " Parced output:" + output + "\n");
                         retVal.put("status", status);
                         retVal.put("output", output);
 
@@ -263,20 +262,6 @@ public class OclTesterActivity extends Activity
                 e.printStackTrace();
                 OclTesterActivity.this.log("There was error when executing command...\n");
             }
-        }
-
-        /**
-         * Show text in Android device main window
-         */
-        private void log(String msg) {
-            tempMessage = msg;
-            OclTesterActivity.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    appendText(tempMessage);
-                    tempMessage = "";
-                }
-            });            
         }
     }
 
