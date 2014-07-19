@@ -24,6 +24,12 @@ extern "C" jstring Java_com_lepisto_mikael_ocltester_OclTester_getDeviceInfo
 	return env->NewStringUTF(getDeviceInfo().c_str());
 }
 
+/*
+extern "C" jint JNI_OnLoad(JavaVM*, void*) {
+	return 0;
+}
+*/
+
 
 /**
  * To keep JNI maddness minimal, return status and output as one encoded string

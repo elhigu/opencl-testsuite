@@ -10,17 +10,15 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.Enumeration;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.os.Messenger;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.widget.TextView;
 
 /**
@@ -40,10 +38,13 @@ import android.widget.TextView;
  */
 public class OclTesterActivity extends Activity
 {
+    static final String LOGTAG = "OclTesterActivity";
     static final int SocketServerPORT = 41233;
+
     ServerSocket serverSocket;
     OclCallServiceClient oclClient;
-    
+
+    ConcurrentLinkedQueue<String> messagesFromOtherThreads = new ConcurrentLinkedQueue<String>();
 
     //
     // Main Activity
@@ -52,53 +53,30 @@ public class OclTesterActivity extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        // Wait a bit to be ready to get all debug messages  
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         oclClient = new OclCallServiceClient(this);
 
         setContentView(R.layout.main);
         TextView t=(TextView)findViewById(R.id.MainTextContent);
         t.setMovementMethod(new ScrollingMovementMethod());
-
         t.setText("Listening:" + getIpAddress().trim() + ":" + SocketServerPORT + "\n");
-
-        oclClient.doBindService();
 
         // Start listening only after service if bound
         Thread socketServerThread = new Thread(new SocketServerThread());
         socketServerThread.start();
-        
-/*
-        t.append(oclTester.getDeviceInfo());
-        t.append("\n");
-
-        // valid
-        t.append("Compile test #1: " + oclTester.compileWithDevice("1050148873", 
-                "kernel void zero_one_or_other(void) {" +
-                "}"));
-
-        t.append("\n\n");
-
-        // syntax error
-        t.append("Compile test #2: " +oclTester.compileWithDevice("1050148873", 
-                "kernel void zero_one_or_other(void) {" +
-                        "	I'm Syntax Error." +
-                "}"));
-
-        t.append("\n\n\n");
-
-        // compiler fail with intel... silent fail of JNI...
-        t.append(oclTester.compileWithDevice("1050148873", 
-        		"kernel void zero_one_or_other(void) {" +
-        		"	local uint local_1[1];" +
-        		"	local uint local_2[1];" +
-        		"	*(local_1 > local_2 ? local_1 : local_2) = 0;" +
-        		"}"));
-*/
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        oclClient.doUnbindService();
+        oclClient.release();
 
         if (serverSocket != null) {
             try {
@@ -114,6 +92,22 @@ public class OclTesterActivity extends Activity
         t.append(msg);
     }
 
+    /**
+     * Add message to queue and tell UI thread to put it on 
+     */
+    public void log(String message) {
+        Log.i(LOGTAG, "Putting message to Queue for showing in UI thread: " + message);
+        messagesFromOtherThreads.add(message);
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                String msg = messagesFromOtherThreads.remove();
+                Log.i(LOGTAG, "Putting msg to UI: " + msg);
+                appendText(msg);
+            }
+        });
+    }
+
     //
     // SOCKET COMMUNICATION START HERE....
     //
@@ -122,8 +116,14 @@ public class OclTesterActivity extends Activity
      * Listen new connections to execute commands with OclTester.
      */
     private class SocketServerThread extends Thread {
+        private final String LOGTAG = "SocketServerThread";
+
         @Override
         public void run() {
+
+            testOclClient();
+
+            Log.i(LOGTAG, "Starting TCP connection listener thread.");
             try {
                 
                 serverSocket = new ServerSocket(SocketServerPORT);
@@ -135,13 +135,51 @@ public class OclTesterActivity extends Activity
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                OclTesterActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        appendText("There was error creating response socket...\n");
-                    }
-                });
+                OclTesterActivity.this.log("There was error creating response socket...\n");
             }
+        }
+
+        private void testOclClient() {
+            // 
+            // Test some simple OpenCL cases to make sure OclClient is connected
+            // to service. These cannot be called in UI thread.
+            // 
+            OclTesterActivity.this.log("Running simple tests with OclClient.\n");
+            String devInfo = oclClient.getDeviceInfo();
+
+            // For some reason 
+            OclTesterActivity.this.log("Info:\n" + devInfo + "\n\n");
+
+            String compileResult = oclClient.compileWithDevice(
+                    "1050148873", 
+                    "kernel void zero_one_or_other(void) { }");
+
+            // valid compile test case
+            OclTesterActivity.this.log("Compile test #1: " + compileResult);
+
+            // syntax error
+            OclTesterActivity.this.log(
+                "Compile test #2: " + 
+                oclClient.compileWithDevice("1050148873", 
+                    "kernel void zero_one_or_other(void) {" +
+                    "   I'm Syntax Error." +
+                    "}") + 
+                "\n\n"
+            );
+
+            // compiler fail with intel... silent fail of JNI...
+            OclTesterActivity.this.log(
+               "Compile test #3: " +                     
+               oclClient.compileWithDevice("1050148873", 
+                    "kernel void zero_one_or_other(void) {" +
+                    "   local uint local_1[1];" +
+                    "   local uint local_2[1];" +
+                    "   *(local_1 > local_2 ? local_1 : local_2) = 0;" +
+                    "}") + 
+               "\n\n"
+            );
+
+            OclTesterActivity.this.log("DevInfo again after crash on intel:\n" + oclClient.getDeviceInfo() + "\n\n");
         }
     }
 
@@ -172,7 +210,7 @@ public class OclTesterActivity extends Activity
                 try {
                     OclTester oclTester = new OclTester();
                     String commandStr = new String(buffer, "UTF-8");
-                    log("Got command: " + commandStr + "\n");
+                    OclTesterActivity.this.log("Got command: " + commandStr + "\n");
                     
                     JSONObject json = new JSONObject(commandStr);
                     String command = json.getString("command");
@@ -185,16 +223,16 @@ public class OclTesterActivity extends Activity
                         String device = json.getString("device");
                         String code = json.getString("code");
 
-                        log("Starting to compile: " + device + ":" + code + "\n");
+                        OclTesterActivity.this.log("Starting to compile: " + device + ":" + code + "\n");
  
                         String compileStatus = oclTester.compileWithDevice(device, code);
 
-                        log("Return: " + compileStatus + "\n");
+                        OclTesterActivity.this.log("Return: " + compileStatus + "\n");
 
                         int separator = compileStatus.indexOf(':');
                         boolean status = Boolean.parseBoolean(compileStatus.substring(0, separator));
                         String output = compileStatus.substring(separator+1);
-                        log("Returning:" + status + " output:" + output + "\n");
+                        OclTesterActivity.this.log("Returning:" + status + " output:" + output + "\n");
 
                         retVal.put("status", status);
                         retVal.put("output", output);
@@ -216,14 +254,14 @@ public class OclTesterActivity extends Activity
                 outputStream = hostThreadSocket.getOutputStream();
                 PrintStream printStream = new PrintStream(outputStream);
                 String retStr = retVal.toString() + "\n";
-                log("Returning: " + retStr);
+                OclTesterActivity.this.log("Returning: " + retStr);
 
                 printStream.print(retStr);
                 printStream.close();
 
             } catch (IOException e) {
                 e.printStackTrace();
-                log("There was error when executing command...\n");
+                OclTesterActivity.this.log("There was error when executing command...\n");
             }
         }
 

@@ -1,6 +1,8 @@
 package com.lepisto.mikael.ocltester;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.TimeUnit;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -14,12 +16,13 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
+import android.util.Log;
 
 /**
  * Communicates with OclCallService and recognize if it crashed etc.
  */
-public class OclCallServiceClient {
-
+public class OclCallServiceClient {    
+    private static final String LOGTAG = "OclServiceClient";
     Messenger mService = null;
     boolean mIsBound;
 
@@ -27,7 +30,10 @@ public class OclCallServiceClient {
     private Activity sourceActivity;
     
     // queue to wait for response from service
-    SynchronousQueue<String> msgQueue = new SynchronousQueue<String>();
+    private SynchronousQueue<String> msgQueue = new SynchronousQueue<String>();
+
+    // Latch to use for waiting until service is connected
+    private CountDownLatch initLock = null;
 
     //
     // MESSAGE PROCESSOR FOR OclCallServiceClient
@@ -37,20 +43,24 @@ public class OclCallServiceClient {
         @Override
         public void handleMessage(Message msg) {
             try {
+                String response = "";
                 if (msg.what == OclCallService.MSG_TYPE_RESULT) {
                     Bundle msgData = msg.getData();
-                    String response = msgData.getString(OclCallService.MSG_KEY_RESPONSE);
-                    System.out.println("Going to write message to queue: " + response);
-                    msgQueue.put(response);
-                    System.out.println("=== writing done ===");
+                    response = msgData.getString(OclCallService.MSG_KEY_RESPONSE);
+                } else if (msg.what == OclCallService.MSG_TYPE_SERVICE_DISCONNECTED) {
+                    response = "false:Error: Service disconnected unexpectedly! Probably OCL driver crash.";
                 } else {
                     Bundle msgData = msg.getData();
-                    System.out.println("Going to write error: " + "Got error or something from service: " + msg.toString() + " Response: " + msgData.toString());
-                    msgQueue.put("Got error or something from service: " + msg.toString() + " Response: " + msgData.toString());
-                    System.out.println("=== writing done ===");
+                    response = "Got error or something from service: " + 
+                            msg.toString() + " Response: " + msgData.toString();
                 }
+                
+                Log.i(LOGTAG, "Going to write message to queue: " + response);
+                msgQueue.put(response);
+                Log.i(LOGTAG, "=== writing done ===");
+
             } catch (InterruptedException e) {
-                System.out.println("Got exception in ClinetHandler!");
+                Log.i(LOGTAG, "Got exception in ClinetHandler!");
                 // TODO what to do if this fails? it should not...
                 e.printStackTrace();
             }
@@ -61,11 +71,21 @@ public class OclCallServiceClient {
     
     OclCallServiceClient(Activity boundTo) {
         sourceActivity = boundTo;
+        doBindService();
     }
 
+    /**
+     * Disconnect client from service
+     */
+    public void release() {
+        Log.i(LOGTAG, "Unbinding OclCallService...");
+        doUnbindService();
+    }
+    
     public String getDeviceInfo() {
-        
-        // TODO: wait that initialization is complete
+        // TODO: make sure that oclClient is not called from main thread of program
+        //       which does event handling (wait will block handling and we are screwed).. 
+        waitForServiceToBeReady();
         
         Message msg = Message.obtain(null, OclCallService.MSG_TYPE_COMMAND);
         Bundle data = new Bundle();
@@ -76,27 +96,84 @@ public class OclCallServiceClient {
         try {
             mService.send(msg);
         } catch (RemoteException e) {
-            System.out.println("Sending message failed. Check out why and how to handle it.");
+            Log.i("OclServiceClient", "Sending message failed. Check out why and how to handle it.");
             e.printStackTrace();
         }
-        
-        // TODO: throw error if not getting result in time or if message 
-        //       service was broken...
 
-        System.out.println("Waiting for reply....");
+        Log.i("OclServiceClient", "Waiting for reply....");
         String response = null;
         try {
             response = msgQueue.take();
         } catch (InterruptedException e) {
-            System.out.println("Waiting for response failed for some reason. Figure out what to do with it.");
+            Log.i("OclServiceClient", "Waiting for response failed for some reason. Figure out what to do with it.");
             e.printStackTrace();
         }
-        System.out.println("Gotit: " + response);
-        
-        // TODO: check if message was correct or if it is some other 
-        //       broken thing...
-        
+        Log.i("OclServiceClient", "Gotit: " + response);
+
         return response;
+    }
+
+    
+    public String compileWithDevice(String deviceId, String code) {
+
+        // TODO: make sure that oclClient is not called from main thread of program
+        //       which does event handling (wait will block handling and we are screwed).. 
+        waitForServiceToBeReady();
+        
+        Message msg = Message.obtain(null, OclCallService.MSG_TYPE_COMMAND);
+        Bundle data = new Bundle();
+        msg.setData(data);
+
+        data.putString(OclCallService.MSG_KEY_COMMAND, OclCallService.MSG_COMMAND_COMPILE);
+        data.putString(OclCallService.MSG_KEY_DEVICE, deviceId);
+        data.putString(OclCallService.MSG_KEY_CODE, code);
+        msg.replyTo = messageReceiver;
+
+        try {
+            mService.send(msg);
+        } catch (RemoteException e) {
+            Log.i("OclServiceClient", "Sending message failed. If this happens, check out why and how to handle it.");
+            e.printStackTrace();
+        }
+
+        Log.i("OclServiceClient", "Waiting for reply....");
+        String response = null;
+        try {
+            response = msgQueue.take();
+        } catch (InterruptedException e) {
+            Log.i("OclServiceClient", "Waiting for response failed for some reason. Figure out what to do with it.");
+            e.printStackTrace();
+        }
+
+        Log.i("OclServiceClient", "Gotit: " + response);
+        return response;
+    }
+
+    /** 
+     * Waits until service is connected
+     */
+    private void waitForServiceToBeReady() {
+
+        // if not bound try to bind again
+        doBindService();
+
+        // wait that initialization is complete
+        Log.i(LOGTAG, "Waiting for connection to OclCallService...");
+        try {
+            int waitCount = 0;
+            // If this is called from Main thread, it will hang, since 
+            // ServiceConnection call backs are called in main thread
+            while (!initLock.await(100, TimeUnit.MILLISECONDS)) {
+                if (waitCount % 50 == 0) {
+                    Log.i(LOGTAG, "Still waiting. Waking every 100ms to handle messages though...");
+                }
+                waitCount++;
+            }
+        } catch (InterruptedException e1) {
+            Log.i(LOGTAG, "Countdown wait was interrupted... figure out why and what to do if this actually happens.");
+            e1.printStackTrace();
+        }
+        Log.i(LOGTAG, "Connected! Continue using the service.");
     }
 
     /**
@@ -105,30 +182,36 @@ public class OclCallServiceClient {
     private ServiceConnection mConnection = new ServiceConnection() {
         
         public void onServiceConnected(ComponentName className, IBinder service) {
+            Log.i(LOGTAG, "Service connected!");
             mService = new Messenger(service);
+            initLock.countDown();
         }
 
         public void onServiceDisconnected(ComponentName className) {
             Message msg = Message.obtain(null, OclCallService.MSG_TYPE_SERVICE_DISCONNECTED);
             try {
-                // TODO: send message about failure...
                 messageReceiver.send(msg);
             } catch (RemoteException e) {
-                // TODO: we could call some known good callback too
-                //       directly from activity.. this should never fail though.
+                Log.i(LOGTAG, "Could not send response to client... If this happens really need to figure out what to do.");
                 e.printStackTrace();
             }
             mService = null;
         }
     };
 
-    void doBindService() {
-        sourceActivity.bindService(
-                new Intent(sourceActivity, OclCallService.class), 
-                mConnection, Context.BIND_AUTO_CREATE);
+    private void doBindService() {
+        // trust that mService was set to null when disconnect was called...
+        if (mService == null) {
+            initLock =  new CountDownLatch(1);
+            Log.i(LOGTAG, "Going to bind service...");
+            sourceActivity.bindService(
+                    new Intent(sourceActivity, OclCallService.class), 
+                    mConnection, Context.BIND_AUTO_CREATE);
+            Log.i(LOGTAG, "binding ready.");
+        }
     }
 
-    void doUnbindService() {
+    private void doUnbindService() {
         if (mService != null) {
             // Detach our existing connection.
             sourceActivity.unbindService(mConnection);

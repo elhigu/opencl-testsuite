@@ -9,12 +9,15 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
+import android.util.Log;
 
 /**
- * To setup android emulator to redirect ports to be visible in host do
+ * Service process, which calls JNI functions and
+ * might crash if JNI side crashes.
  */
 public class OclCallService extends Service {
-
+    final private String LOGTAG = "OclCallService";
+    
     // Message types for communication with sourceActivity
     public static final int MSG_TYPE_COMMAND = 1;
     public static final int MSG_TYPE_RESULT = 2;
@@ -23,11 +26,16 @@ public class OclCallService extends Service {
 
     public static final String MSG_KEY_COMMAND = "command";
     public static final String MSG_KEY_RESPONSE = "response";
+    public static final String MSG_KEY_DEVICE = "device";
+    public static final String MSG_KEY_CODE = "code";
     public static final String MSG_COMMAND_COMPILE = "compile";
     public static final String MSG_COMMAND_INFO = "info";
 
+    final Messenger mMessenger = new Messenger(new IncomingHandler());
+    final OclTester oclTester = new OclTester();
+
     /**
-     * Inter Process Communication...
+     * Receive command message and send reply.
      */
     @SuppressLint("HandlerLeak")
 	class IncomingHandler extends Handler {
@@ -49,39 +57,37 @@ public class OclCallService extends Service {
                 if (command.equals(MSG_COMMAND_INFO)) {
                     String devInfo = oclTester.getDeviceInfo();
                     replyData.putString(MSG_KEY_RESPONSE, devInfo);
+
                 } else if (command.equals(MSG_COMMAND_COMPILE)) {
-                    // TODO: get code from input.getString("code");...
-                    // if crash, won't be finished..
-                    String compileResults = oclTester.compileWithDevice("1050148873", "kernel void zero_one_or_other(void) {local uint local_1[1];local uint local_2[1];*(local_1 > local_2 ? local_1 : local_2) = 0;}");
+                    String device = input.getString(MSG_KEY_DEVICE);
+                    String code =  input.getString(MSG_KEY_CODE);
+                    String compileResults = oclTester.compileWithDevice(device, code);
                     replyData.putString(MSG_KEY_RESPONSE, compileResults);
+
                 } else {
                     replyType = MSG_TYPE_ERROR;
                     replyData.putString(MSG_KEY_RESPONSE, "Invalid command: "+ command);
                 }
             } else {
                 replyType = MSG_TYPE_ERROR;
-                replyData.putString(MSG_KEY_RESPONSE, "Invalid message type: "+ msg.what);                
+                replyData.putString(MSG_KEY_RESPONSE, "Invalid message type: "+ msg.what);
             }
 
             // Reply
             Message reply = Message.obtain(null, replyType);
-            reply.setData(replyData);            
+            reply.setData(replyData);
             try {
                 msg.replyTo.send(reply);
             } catch (RemoteException e) {
-                // TODO: Maybe we should disconnect in this case so that
-                // client know that something went wrong...
+                Log.i(LOGTAG, "Sending reply from service failed... if this really happens figure out why and what to do.");
                 e.printStackTrace();
             }
         }
     }
 
-    final Messenger mMessenger = new Messenger(new IncomingHandler());
-    final OclTester oclTester = new OclTester();
 
     /**
-     * When binding to the service, we return an interface to our messenger
-     * for sending messages to the service.
+     * Return communication channel for activity.
      */
     @Override
     public IBinder onBind(Intent intent) {
