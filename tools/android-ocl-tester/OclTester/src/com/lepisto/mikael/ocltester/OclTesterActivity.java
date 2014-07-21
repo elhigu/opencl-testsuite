@@ -89,15 +89,20 @@ public class OclTesterActivity extends Activity
     
     private void appendText(String msg) {
         TextView t=(TextView)findViewById(R.id.MainTextContent);
-        t.append(msg);
+        if (t.getText().length() > 100000) {
+            t.setText(msg);
+        } else {
+            t.append(msg);
+        }
     }
-
+    
     /**
      * Add message to queue and tell UI thread to put it on 
      */
     public void log(String message) {
         Log.i(LOGTAG, "Putting message to Queue for showing in UI thread: " + message);
-        messagesFromOtherThreads.add(message);
+
+        messagesFromOtherThreads.add(message.trim() + "\n");
         this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -179,7 +184,7 @@ public class OclTesterActivity extends Activity
                "\n\n"
             );
 
-            OclTesterActivity.this.log("Test getting devinfo again, should work even after driver crash:\n" + oclClient.getDeviceInfo() + "\n\n");            
+            OclTesterActivity.this.log("Test getting devinfo again, should work even after driver crash:\n" + oclClient.getDeviceInfo() + "\n\n");
         }
     }
 

@@ -9,9 +9,9 @@
     android:id="@+id/MainTextContent"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="Hello World, MainActivity" 
     android:maxLines = "100000"
-    android:scrollbars = "vertical" />
+    android:scrollbars = "vertical" 
+    android:gravity="bottom" />
 
 
 </LinearLayout>

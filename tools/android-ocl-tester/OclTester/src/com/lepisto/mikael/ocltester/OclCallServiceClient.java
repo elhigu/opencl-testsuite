@@ -165,14 +165,10 @@ public class OclCallServiceClient {
         // wait that initialization is complete
         Log.i(LOGTAG, "Waiting for connection to OclCallService...");
         try {
-            int waitCount = 0;
             // If this is called from Main thread, it will hang, since 
             // ServiceConnection call backs are called in main thread
-            while (!initLock.await(100, TimeUnit.MILLISECONDS)) {
-                if (waitCount % 50 == 0) {
-                    Log.i(LOGTAG, "Still waiting. Waking every 100ms to handle messages though...");
-                }
-                waitCount++;
+            while (!initLock.await(10000, TimeUnit.MILLISECONDS)) {
+                Log.i(LOGTAG, "Still waiting...");
             }
         } catch (InterruptedException e1) {
             Log.i(LOGTAG, "Countdown wait was interrupted... figure out why and what to do if this actually happens.");
