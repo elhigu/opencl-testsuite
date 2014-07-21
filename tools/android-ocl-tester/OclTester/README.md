@@ -36,4 +36,4 @@ Intel's guide for installing their OpenCL driver to Android emulator didn't incl
 do it on OSX. Here are simple steps how to extract driver from Linux distribution and 
 install it to Android x86 emulator.
 
-<TODO>
+TODO: explain what files one has to unpack from .debs and where to copy libOpenCL.so and CL/cl.h and how to start emulator with extra space for being able to execute installer.
