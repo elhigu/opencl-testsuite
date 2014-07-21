@@ -48,7 +48,7 @@ public class OclCallServiceClient {
                     Bundle msgData = msg.getData();
                     response = msgData.getString(OclCallService.MSG_KEY_RESPONSE);
                 } else if (msg.what == OclCallService.MSG_TYPE_SERVICE_DISCONNECTED) {
-                    response = "false:Error: Service disconnected unexpectedly! Probably OCL driver crash.";
+                    response = "false:Error: OclCallService disconnected unexpectedly! Probably OCL driver crash.";
                 } else {
                     Bundle msgData = msg.getData();
                     response = "Got error or something from service: " + 
