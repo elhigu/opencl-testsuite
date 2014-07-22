@@ -310,22 +310,96 @@ bool compileSource(std::string const& source, cl_device_id const& deviceId, bool
 }
 
 /**
+ * Returns true if we should use remote tester to run test cases
+ */
+bool useRemoteTester(void) {
+    return getenv("OCL_REMOTE_TESTER") != NULL;
+}
+
+#ifdef WIN32
+std::string sendRemoteCall(std::string command) {
+    return "Remote test runner not implemented for Windows (winsock).";
+}
+
+#else
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <arpa/inet.h> 
+
+/**
+ * Send command to remote tester client 
+ * platform independent way
+ */
+std::string sendRemoteCall(std::string command) {
+
+    int sockfd = 0, n = 0;
+    char recvBuff[1024];
+    struct sockaddr_in serv_addr; 
+    std::stringstream retVal;
+
+    memset(recvBuff, '0',sizeof(recvBuff));
+    if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+    {
+        return "Error : Could not create socket\n";
+    }
+    memset(&serv_addr, '0', sizeof(serv_addr)); 
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_port = htons(41523); 
+
+    char *remote_address = getenv("OCL_REMOTE_TESTER");
+    if(inet_pton(AF_INET, remote_address, &serv_addr.sin_addr)<=0)
+    {
+        return "Error : inet_pton error occured\n";
+    } 
+
+    if( connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
+    {
+       return "Error : Connect Failed\n";
+    } 
+
+    write(sockfd, command.c_str(), command.length());
+
+    while ( (n = read(sockfd, recvBuff, sizeof(recvBuff)-1)) > 0)
+    {
+        recvBuff[n] = 0;
+        retVal << recvBuff;
+    } 
+
+    if(n < 0)
+    {
+        return "Error: Socket reading failed.\n";
+    } 
+
+    return retVal.str();
+}
+#endif
+
+/**
  * Writes JSON to stdout printing device information.
  */
 bool printDeviceInfo() {
-    device_map devices = getAllDeviceInfos();
-    std::cout << "{\"deviceIdentifiers\":[" << std::endl;
-
-    for (device_map::const_iterator iter = devices.begin(); iter != devices.end(); iter++) {
-        const DeviceInfo &dInfo = iter->second;
-        std::cout << getDeviceString(dInfo);
-        if ( peek_next(iter) !=  devices.end() ) {
-            std::cout << ",";
+    if (useRemoteTester()) {
+        std::cout << sendRemoteCall("{ \"command\" : \"info\" }");
+    } else {
+        device_map devices = getAllDeviceInfos();
+        std::cout << "{\"deviceIdentifiers\":[" << std::endl;
+        for (device_map::const_iterator iter = devices.begin(); iter != devices.end(); iter++) {
+            const DeviceInfo &dInfo = iter->second;
+            std::cout << getDeviceString(dInfo);
+            if ( peek_next(iter) !=  devices.end() ) {
+                std::cout << ",";
+            }
+            std::cout << std::endl;
         }
-        std::cout << std::endl;
+        std::cout << "]}" << std::endl;
     }
-    std::cout << "]}" << std::endl;
-
     return true;
 }
 
@@ -333,21 +407,32 @@ bool compileWithDevice(std::string selectedDevice, bool debug) {
     if (debug) std::cerr << "Reading stdin:" << std::endl;
     std::string source = readAllInput();
     if (debug) std::cerr << source << std::endl;
+    if (useRemoteTester()) {
+        std::string command = 
+            std::string("{ \"command\" : \"compile\", \"device\" : \"") + 
+            selectedDevice + 
+            std::string("\", \"code\" : \"") +
+            source +
+            std::string("\" : }");
+        std::string result = sendRemoteCall(command);
+        // TODO parse result and output...
+        return false;
+    } else {
+        if (debug) std::cerr << "Fetch all devices..." << std::endl;
+        device_map devices = getAllDeviceInfos();
 
-    if (debug) std::cerr << "Fetch all devices..." << std::endl;
-    device_map devices = getAllDeviceInfos();
-
-    // find correct device by id
-    if (debug) std::cerr << "Finding correct device to compile..." << std::endl;
-    for (device_map::const_iterator iter = devices.begin(); iter != devices.end(); iter++) {
-        if (to_string(iter->second.deviceHash) == selectedDevice) {
-            if (debug) std::cerr << "Found: " << getDeviceString(iter->second) << std::endl;
-            return compileSource(source, iter->second.dId, debug);
+        // find correct device by id
+        if (debug) std::cerr << "Finding correct device to compile..." << std::endl;
+        for (device_map::const_iterator iter = devices.begin(); iter != devices.end(); iter++) {
+            if (to_string(iter->second.deviceHash) == selectedDevice) {
+                if (debug) std::cerr << "Found: " << getDeviceString(iter->second) << std::endl;
+                return compileSource(source, iter->second.dId, debug);
+            }
         }
-    }
 
-    std::cerr << "Error: Could not find device." << std::endl;
-    return false;
+        std::cerr << "Error: Could not find device." << std::endl;
+        return false;
+    }
 }
 
 bool runWithDevice(std::string selectedDevice) {
