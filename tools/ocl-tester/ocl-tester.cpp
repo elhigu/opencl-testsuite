@@ -312,8 +312,10 @@ bool compileSource(std::string const& source, cl_device_id const& deviceId, bool
 /**
  * Returns true if we should use remote tester to run test cases
  */
+const char* TESTER_ADDR_VAR_NAME = "OCL_REMOTE_TESTER";
+
 bool useRemoteTester(void) {
-    return getenv("OCL_REMOTE_TESTER") != NULL;
+    return getenv(TESTER_ADDR_VAR_NAME) != NULL;
 }
 
 #ifdef WIN32
@@ -338,33 +340,45 @@ std::string sendRemoteCall(std::string command) {
  * platform independent way
  */
 std::string sendRemoteCall(std::string command) {
-
+    
     int sockfd = 0, n = 0;
     char recvBuff[1024];
     struct sockaddr_in serv_addr; 
+    struct hostent *server;
     std::stringstream retVal;
 
     memset(recvBuff, '0',sizeof(recvBuff));
     if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
     {
-        return "Error : Could not create socket\n";
+        std::stringstream err;
+        err << "Error : Could not create socket: " << strerror(errno) << std::endl;
+        return err.str();
     }
-    memset(&serv_addr, '0', sizeof(serv_addr)); 
+
+    char *tester_addr = getenv(TESTER_ADDR_VAR_NAME);
+    server = gethostbyname(tester_addr);
+    if (server == NULL) {
+        std::stringstream err;
+        err << "Error : could not resolve host: " << strerror(errno) << std::endl;
+        return err.str();
+    }
+
+    bzero((char *) &serv_addr, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(41523); 
+    bcopy((char *)server->h_addr, 
+         (char *)&serv_addr.sin_addr.s_addr,
+         server->h_length);
+    serv_addr.sin_port = htons(41233);
 
-    char *remote_address = getenv("OCL_REMOTE_TESTER");
-    if(inet_pton(AF_INET, remote_address, &serv_addr.sin_addr)<=0)
+    if(connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
     {
-        return "Error : inet_pton error occured\n";
-    } 
+        std::stringstream err;
+        err << "Error : Connect Failed: " << strerror(errno) << std::endl;
+        return err.str();
+    }
 
-    if( connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
-    {
-       return "Error : Connect Failed\n";
-    } 
-
-    write(sockfd, command.c_str(), command.length());
+    command = command + "\n\n";
+    write(sockfd, command.c_str() , command.length());
 
     while ( (n = read(sockfd, recvBuff, sizeof(recvBuff)-1)) > 0)
     {
