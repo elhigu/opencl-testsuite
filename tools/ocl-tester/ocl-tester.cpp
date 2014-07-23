@@ -340,7 +340,7 @@ std::string sendRemoteCall(std::string command) {
  * platform independent way
  */
 std::string sendRemoteCall(std::string command) {
-    
+
     int sockfd = 0, n = 0;
     char recvBuff[1024];
     struct sockaddr_in serv_addr; 
@@ -395,12 +395,21 @@ std::string sendRemoteCall(std::string command) {
 }
 #endif
 
+#include "rapidjson/document.h"
+using namespace rapidjson;
+
 /**
  * Writes JSON to stdout printing device information.
  */
 bool printDeviceInfo() {
     if (useRemoteTester()) {
-        std::cout << sendRemoteCall("{ \"command\" : \"info\" }");
+        std::string result = sendRemoteCall("{ \"command\" : \"info\" }");
+        // rapid json headers 
+        Document d;
+        d.Parse(result.c_str());
+        std::cout << d["output"].GetString() << std::endl;
+        return d["status"].GetBool();
+
     } else {
         device_map devices = getAllDeviceInfos();
         std::cout << "{\"deviceIdentifiers\":[" << std::endl;
@@ -421,16 +430,39 @@ bool compileWithDevice(std::string selectedDevice, bool debug) {
     if (debug) std::cerr << "Reading stdin:" << std::endl;
     std::string source = readAllInput();
     if (debug) std::cerr << source << std::endl;
+    
     if (useRemoteTester()) {
+        std::stringstream escapedSource;
+        for(std::string::iterator it = source.begin(); it != source.end(); ++it) {
+            char c = *it;
+            switch (c) {
+                case '\\': escapedSource << "\\\\"; break;
+                case '"': escapedSource << "\\\""; break;
+                case '/': escapedSource << "\\/"; break;
+                case '\b': escapedSource << "\\b"; break;
+                case '\f': escapedSource << "\\f"; break;
+                case '\n': escapedSource << "\\n"; break;
+                case '\r': escapedSource << "\\r"; break;
+                case '\t': escapedSource << "\\t"; break;
+                default: escapedSource << c; break;
+            }
+        }
+ 
         std::string command = 
             std::string("{ \"command\" : \"compile\", \"device\" : \"") + 
             selectedDevice + 
             std::string("\", \"code\" : \"") +
-            source +
-            std::string("\" : }");
+            escapedSource.str() +
+            std::string("\"}");
+
         std::string result = sendRemoteCall(command);
-        // TODO parse result and output...
-        return false;
+
+        // rapid json headers 
+        Document d;
+        d.Parse(result.c_str());
+        std::cout << d["output"].GetString() << std::endl;
+        return d["status"].GetBool();
+
     } else {
         if (debug) std::cerr << "Fetch all devices..." << std::endl;
         device_map devices = getAllDeviceInfos();

@@ -24,7 +24,7 @@ import android.widget.TextView;
 /**
  * To setup android emulator to redirect ports to be visible in host do
  * 
- * telnet localhost 5556
+ * telnet localhost 5554
  * redir add tcp:41233:41233
  *
  * To test commands with netcat
