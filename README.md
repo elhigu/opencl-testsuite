@@ -15,7 +15,8 @@ Reported results are updated here: http://elhigu.github.io/opencl-testsuite/
 * CMake 2.8
 * C/C++ compiler
 * OpenCL Headers and libraries
-
+* Supported platforms, Windows, Linux, OSX, Android
+ 
 ## Features
 
 * Easy to add new test cases
@@ -74,6 +75,33 @@ Use "Visual Studio 2013 Win64" generator.
 	cmake -G "Visual Studio 12 Win64" ../opencl-testsuite
 
 Open created opencl-testsuite.sln file and build `check` rule. To send results build `send-report` rule.
+
+### Android
+
+Running test suite on Android is implemented by creating separate tester application for Android, which is listening test cases through TCP 41322. Also local `ocl-tester` which is used to run tests locally can actually connect to remote TCP port and instead of running tests locally just send test case in JSON to remote client. So there are no extra dependencies (python, sh, etc.) for remote devices. 
+
+Now in addition to:
+
+	<Host test runner> -> <ocl-tester> -> <local OpenCL driver>
+
+We can also execute tests on remote device:
+
+	<Host test runner> -> <ocl-tester> -> TCP -> <ocl-remote-tester> -> <device OpenCL driver>
+
+ 
+How to build and install Android client is explained here: https://github.com/elhigu/opencl-testsuite/tree/master/tools/android-ocl-tester/OclTester
+
+Host machine which will send tests to be ran and collects results must be either Linux or OSX (socket code is not ported to windows yet).
+
+After remote client is running and accepting connections from host which will execute test runner
+
+	OCL_REMOTE_TESTER="<remote device DNS or IP>" make check
+
+Tester currently expects TCP port to be always `41322`. 
+
+Running commands on remote tester one can also pass `OCL_REMOTE_TESTER` environment variable directly to `ocl-tester` command. e.g.
+
+	OCL_REMOTE_TESTER="<remote device DNS or IP>" ocl-tester list-devices	
 
 ## Adding new tests
 
