@@ -83,7 +83,10 @@ Now you have OpenCL installed on running android emulator and libraries and head
 
 Now your emulator should have returned information about it's OpenCL environment. e.g. 
 ```
-{"output":"{\"deviceIdentifiers\":[\n{\"id\":1050148873,\"platformName\":\"Intel(R) OpenCL\",\"platformVersion\":\"OpenCL 1.2 LINUX\",\"deviceName\":\"Intel(R) Pentium(R) 4 CPU 1500MHz\",\"deviceVersion\":\"OpenCL 1.2 (Build 83082)\",\"driverVersion\":\"1.2.0.83082\",\"openCLCVersion\":\"OpenCL C 1.2\"}\n]}\n","status":true}
+{
+"output":"{\"deviceIdentifiers\":[\n{\"id\":1050148873,\"platformName\":\"Intel(R) OpenCL\",\"platformVersion\":\"OpenCL 1.2 LINUX\",\"deviceName\":\"Intel(R) Pentium(R) 4 CPU 1500MHz\",\"deviceVersion\":\"OpenCL 1.2 (Build 83082)\",\"driverVersion\":\"1.2.0.83082\",\"openCLCVersion\":\"OpenCL C 1.2\"}\n]}\n",
+"status":true
+}
 ```
 
 
