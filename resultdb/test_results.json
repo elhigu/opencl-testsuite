@@ -855,6 +855,69 @@
       }
     }
   }, 
+  "6267398602500534170": {
+    "deviceInfo": {
+      "deviceName": "Intel(R) Pentium(R) 4 CPU 1500MHz", 
+      "uuid": 6267398602500534170, 
+      "driverVersion": "1.2.0.83082", 
+      "platformVersion": "OpenCL 1.2 LINUX", 
+      "platformName": "Intel(R) OpenCL", 
+      "openCLCVersion": "OpenCL C 1.2", 
+      "deviceVersion": "OpenCL 1.2 (Build 83082)"
+    }, 
+    "results": {
+      "2014-07-24T20:06:12+03:00": {
+        "date": "2014-07-24T20:06:12+03:00", 
+        "tests": [
+          {
+            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/test_suite_usage_example.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/use_local_address_in_inline_function.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_value_to_local_memory_variable.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/zero_one_or_other_local.cl", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 1050148873 < \"tests/kernel/zero_one_or_other_local.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"1050148873\"\nCommand 0 Result: 1\nCommand 0 Output:\nError: OclCallService disconnected unexpectedly! Probably OCL driver crash.\n\n\nCommand 0 Stderr:\n\n\n\n--\n\n", 
+            "result": "FAIL"
+          }
+        ]
+      }
+    }
+  }, 
   "379041650927028385": {
     "deviceInfo": {
       "deviceName": "Intel(R) Core(TM) i7-3615QM CPU @ 2.30GHz", 
