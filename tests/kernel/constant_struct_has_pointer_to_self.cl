@@ -5,7 +5,7 @@ typedef struct {
     constant int* firstPtr;
 } ConstantPool;
 
-constant ConstantPool constants = { 1, &constants.firstPtr };
+constant ConstantPool constants = { 1, &constants.first };
 
 void nop(constant int* addr) { }
 
