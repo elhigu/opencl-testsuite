@@ -60,6 +60,51 @@
           }
         ]
       }, 
+      "2014-05-06T12:59:05+03:00": {
+        "date": "2014-05-06T12:59:05+03:00", 
+        "tests": [
+          {
+            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 4118009272609614020 < \"tests/kernel/constant_struct_has_pointer_to_self.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"4118009272609614020\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\n-------- Build log: --------\n.kR\n\n\n\n--\n\n", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 4118009272609614020 < \"tests/kernel/nested_struct_with_local_memory_pointers.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"4118009272609614020\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\n-------- Build log: --------\nptxas application ptx input, line 19; error   : Arguments mismatch for instruction 'mov'\nptxas application ptx input, line 19; error   : Unknown symbol 'Lnested_struct_with_local_memory_pointers_2E_a'\nptxas application ptx input, line 19; error   : Label expected for forward reference of 'Lnested_struct_with_local_memory_pointers_2E_a'\nptxas fatal   : Ptx assembly aborted due to errors\n\n\n\n--\n\n", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/test_suite_usage_example.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/use_local_address_in_inline_function.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_value_to_local_memory_variable.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 4118009272609614020 < \"tests/kernel/write_wg_size_to_local_memory_table.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"4118009272609614020\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\n-------- Build log: --------\nError getting function data from server\n\n\n\n--\n\n", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }
+        ]
+      }, 
       "2014-04-10T19:39:19+03:00": {
         "date": "2014-04-10T19:39:19+03:00", 
         "tests": [
@@ -101,51 +146,6 @@
           {
             "test": "kernel/write_wg_size_to_local_memory_table.cl", 
             "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 7947762985699276228 < tests/kernel/write_wg_size_to_local_memory_table.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nError getting function data from server\n\n--\n\n", 
-            "result": "FAIL"
-          }, 
-          {
-            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }
-        ]
-      }, 
-      "2014-05-06T12:59:05+03:00": {
-        "date": "2014-05-06T12:59:05+03:00", 
-        "tests": [
-          {
-            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
-            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 4118009272609614020 < \"tests/kernel/constant_struct_has_pointer_to_self.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"4118009272609614020\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\n-------- Build log: --------\n.kR\n\n\n\n--\n\n", 
-            "result": "FAIL"
-          }, 
-          {
-            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
-            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 4118009272609614020 < \"tests/kernel/nested_struct_with_local_memory_pointers.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"4118009272609614020\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\n-------- Build log: --------\nptxas application ptx input, line 19; error   : Arguments mismatch for instruction 'mov'\nptxas application ptx input, line 19; error   : Unknown symbol 'Lnested_struct_with_local_memory_pointers_2E_a'\nptxas application ptx input, line 19; error   : Label expected for forward reference of 'Lnested_struct_with_local_memory_pointers_2E_a'\nptxas fatal   : Ptx assembly aborted due to errors\n\n\n\n--\n\n", 
-            "result": "FAIL"
-          }, 
-          {
-            "test": "kernel/test_suite_usage_example.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/use_local_address_in_inline_function.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/write_value_to_local_memory_variable.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
-            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 4118009272609614020 < \"tests/kernel/write_wg_size_to_local_memory_table.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"4118009272609614020\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\n-------- Build log: --------\nError getting function data from server\n\n\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -218,6 +218,51 @@
           }
         ]
       }, 
+      "2014-05-06T12:59:05+03:00": {
+        "date": "2014-05-06T12:59:05+03:00", 
+        "tests": [
+          {
+            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 13648214698896804304 < \"tests/kernel/cast_and_do_arithmetics_with_local_pointer.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"13648214698896804304\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n\n\n--\n\n", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 13648214698896804304 < \"tests/kernel/nested_struct_with_local_memory_pointers.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"13648214698896804304\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n\n\n--\n\n", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/test_suite_usage_example.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/use_local_address_in_inline_function.cl", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 13648214698896804304 < \"tests/kernel/use_local_address_in_inline_function.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"13648214698896804304\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n\n\n--\n\n", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/write_value_to_local_memory_variable.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 13648214698896804304 < \"tests/kernel/zero_low_or_high_bits_of_local.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"13648214698896804304\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n\n\n--\n\n", 
+            "result": "FAIL"
+          }
+        ]
+      }, 
       "2014-04-10T19:39:19+03:00": {
         "date": "2014-04-10T19:39:19+03:00", 
         "tests": [
@@ -267,14 +312,37 @@
             "result": "FAIL"
           }
         ]
-      }, 
-      "2014-05-06T12:59:05+03:00": {
-        "date": "2014-05-06T12:59:05+03:00", 
+      }
+    }
+  }, 
+  "6419415610492974220": {
+    "deviceInfo": {
+      "deviceName": "AMD HAWAII (DRM 2.43.0 / 4.4.0-72-generic, LLVM 4.0.0)", 
+      "uuid": 6419415610492974220, 
+      "driverVersion": "17.1.0-devel", 
+      "platformVersion": "OpenCL 1.1 Mesa 17.1.0-devel", 
+      "platformName": "Clover", 
+      "openCLCVersion": "OpenCL C 1.1", 
+      "deviceVersion": "OpenCL 1.1 Mesa 17.1.0-devel"
+    }, 
+    "results": {
+      "2017-04-13T09:23:06+03:00": {
+        "date": "2017-04-13T09:23:06+03:00", 
         "tests": [
           {
             "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
-            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 13648214698896804304 < \"tests/kernel/cast_and_do_arithmetics_with_local_pointer.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"13648214698896804304\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n\n\n--\n\n", 
-            "result": "FAIL"
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
+            "output": "N/A", 
+            "result": "PASS"
           }, 
           {
             "test": "kernel/constant_struct_has_pointer_to_self.cl", 
@@ -283,8 +351,18 @@
           }, 
           {
             "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
-            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 13648214698896804304 < \"tests/kernel/nested_struct_with_local_memory_pointers.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"13648214698896804304\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n\n\n--\n\n", 
-            "result": "FAIL"
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/test_suite_usage_example.cl", 
+            "output": "N/A", 
+            "result": "PASS"
           }, 
           {
             "test": "kernel/test_suite_usage_example.cl", 
@@ -293,8 +371,18 @@
           }, 
           {
             "test": "kernel/use_local_address_in_inline_function.cl", 
-            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 13648214698896804304 < \"tests/kernel/use_local_address_in_inline_function.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"13648214698896804304\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n\n\n--\n\n", 
-            "result": "FAIL"
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/use_local_address_in_inline_function.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_value_to_local_memory_variable.cl", 
+            "output": "N/A", 
+            "result": "PASS"
           }, 
           {
             "test": "kernel/write_value_to_local_memory_variable.cl", 
@@ -307,9 +395,29 @@
             "result": "PASS"
           }, 
           {
+            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
             "test": "kernel/zero_low_or_high_bits_of_local.cl", 
-            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 13648214698896804304 < \"tests/kernel/zero_low_or_high_bits_of_local.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"13648214698896804304\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\n-------- Build log: --------\nCVMS_ERROR_COMPILER_FAILURE: CVMS compiler has crashed or hung building an element.\n\n\n\n--\n\n", 
-            "result": "FAIL"
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/zero_one_or_other_local.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/zero_one_or_other_local.cl", 
+            "output": "N/A", 
+            "result": "PASS"
           }
         ]
       }
@@ -376,6 +484,51 @@
           }
         ]
       }, 
+      "2014-05-06T12:59:05+03:00": {
+        "date": "2014-05-06T12:59:05+03:00", 
+        "tests": [
+          {
+            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 1325316654700832193 < \"tests/kernel/cast_and_do_arithmetics_with_local_pointer.cl\"\n--\nExit Code: -11\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"1325316654700832193\"\nCommand 0 Result: -11\nCommand 0 Output:\n\n\nCommand 0 Stderr:\n\n\n\n--\n\n", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/test_suite_usage_example.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/use_local_address_in_inline_function.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_value_to_local_memory_variable.cl", 
+            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 1325316654700832193 < \"tests/kernel/write_value_to_local_memory_variable.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"1325316654700832193\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\n-------- Build log: --------\nError: parse error.\n\n\n\n--\n\n", 
+            "result": "FAIL"
+          }, 
+          {
+            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }
+        ]
+      }, 
       "2014-04-10T19:39:19+03:00": {
         "date": "2014-04-10T19:39:19+03:00", 
         "tests": [
@@ -412,51 +565,6 @@
           {
             "test": "kernel/write_value_to_local_memory_variable.cl", 
             "output": "Script:\n--\ntools/ocl-tester/ocl-tester compile --device 1646481365864493515 < tests/kernel/write_value_to_local_memory_variable.cl\n--\nExit Code: 1\n\nCommand Output (stderr):\n--\nError: Failed to build program... reading build log...\n-------- Build log: --------\nError: parse error.\n\n--\n\n", 
-            "result": "FAIL"
-          }, 
-          {
-            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }
-        ]
-      }, 
-      "2014-05-06T12:59:05+03:00": {
-        "date": "2014-05-06T12:59:05+03:00", 
-        "tests": [
-          {
-            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
-            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 1325316654700832193 < \"tests/kernel/cast_and_do_arithmetics_with_local_pointer.cl\"\n--\nExit Code: -11\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"1325316654700832193\"\nCommand 0 Result: -11\nCommand 0 Output:\n\n\nCommand 0 Stderr:\n\n\n\n--\n\n", 
-            "result": "FAIL"
-          }, 
-          {
-            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/test_suite_usage_example.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/use_local_address_in_inline_function.cl", 
-            "output": "N/A", 
-            "result": "PASS"
-          }, 
-          {
-            "test": "kernel/write_value_to_local_memory_variable.cl", 
-            "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 1325316654700832193 < \"tests/kernel/write_value_to_local_memory_variable.cl\"\n--\nExit Code: 1\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"1325316654700832193\"\nCommand 0 Result: 1\nCommand 0 Output:\n\n\nCommand 0 Stderr:\nError: Failed to build program... reading build log...\n-------- Build log: --------\nError: parse error.\n\n\n\n--\n\n", 
             "result": "FAIL"
           }, 
           {
@@ -1475,6 +1583,69 @@
             "test": "kernel/zero_one_or_other_local.cl", 
             "output": "Script:\n--\n\"tools/ocl-tester/ocl-tester\" compile --device 5534958414035069513 < \"tests/kernel/zero_one_or_other_local.cl\"\n--\nExit Code: -11\n\nCommand Output (stdout):\n--\nCommand 0: \"tools/ocl-tester/ocl-tester\" \"compile\" \"--device\" \"5534958414035069513\"\nCommand 0 Result: -11\nCommand 0 Output:\n\n\nCommand 0 Stderr:\n\n\n\n--\n\n", 
             "result": "FAIL"
+          }
+        ]
+      }
+    }
+  }, 
+  "7185075208516384190": {
+    "deviceInfo": {
+      "deviceName": "AMD POLARIS11 (DRM 3.9.0 / 4.10.0-19-generic, LLVM 4.0.0)", 
+      "uuid": 7185075208516384190, 
+      "driverVersion": "17.0.3", 
+      "platformVersion": "OpenCL 1.1 Mesa 17.0.3", 
+      "platformName": "Clover", 
+      "openCLCVersion": "OpenCL C 1.1", 
+      "deviceVersion": "OpenCL 1.1 Mesa 17.0.3"
+    }, 
+    "results": {
+      "2017-04-11T05:00:12+03:00": {
+        "date": "2017-04-11T05:00:12+03:00", 
+        "tests": [
+          {
+            "test": "kernel/cast_and_do_arithmetics_with_local_pointer.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/constant_struct_has_pointer_to_self.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/nested_struct_with_local_memory_pointers.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/test_suite_usage_example.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/use_local_address_in_inline_function.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_value_to_local_memory_variable.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/write_wg_size_to_local_memory_table.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/zero_low_or_high_bits_of_local.cl", 
+            "output": "N/A", 
+            "result": "PASS"
+          }, 
+          {
+            "test": "kernel/zero_one_or_other_local.cl", 
+            "output": "N/A", 
+            "result": "PASS"
           }
         ]
       }
